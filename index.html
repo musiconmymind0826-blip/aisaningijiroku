@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0F0F1A">
+<title>AIさんいんコンセルジュ議事録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQUnjgZXjgpPjgYTjgpPjgrPjg7Pjgrvjg6vjgrjjg6XorbfkuovpjLIiLCJzaG9ydF9uYW1lIjoiQUnorbfkuovpjLIiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBGMEYxQSIsInRoZW1lX2NvbG9yIjoiIzBGMEYxQSJ9">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#0F0F1A;--emerald:#2DD4A8;--em:#2DD4A8;--coral:#FF6B8A;--co:#FF6B8A;
+--gold:#F0C040;--gd:#F0C040;--sky:#60A5FA;--sk:#60A5FA;--lavender:#A78BFA;--lv:#A78BFA;
+--surface:rgba(255,255,255,.06);--sf:rgba(255,255,255,.06);
+--glass-border:rgba(255,255,255,.12);--gb:rgba(255,255,255,.12);
+--text:#F0F0F0;--text-sub:rgba(255,255,255,.6);
+--font:'Zen Maru Gothic','M PLUS Rounded 1c',sans-serif;
+--safe-bottom:env(safe-area-inset-bottom,0px);
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-tap-highlight-color:transparent}
+body{display:flex;flex-direction:column;position:relative}
+
+/* === BACKGROUND GLOW === */
+.bg-glow{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-glow::before{content:'';position:absolute;width:600px;height:600px;top:-200px;left:-100px;background:radial-gradient(circle,rgba(45,212,168,.12),transparent 70%);animation:glowDrift 12s ease-in-out infinite}
+.bg-glow::after{content:'';position:absolute;width:500px;height:500px;bottom:-150px;right:-100px;background:radial-gradient(circle,rgba(255,107,138,.1),transparent 70%);animation:glowDrift 15s ease-in-out infinite reverse}
+@keyframes glowDrift{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,30px)}}
+
+/* === HEADER === */
+.hdr{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top,0px));background:rgba(15,15,26,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--gb)}
+.hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--co),var(--gd),var(--em),var(--sk),var(--lv))}
+.hdr-logo{display:flex;align-items:center;gap:8px}
+.hdr-icon{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--co),var(--gd));display:flex;align-items:center;justify-content:center;font-size:18px}
+.hdr-title{font-size:14px;font-weight:700;background:linear-gradient(135deg,var(--gd),var(--em));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.hdr-sub{font-size:9px;color:var(--text-sub);font-weight:400}
+.hdr-btn{background:none;border:none;color:var(--text-sub);font-size:22px;cursor:pointer;padding:8px;border-radius:12px;transition:all .2s}
+.hdr-btn:hover{color:var(--text);background:var(--sf)}
+
+/* === MAIN CONTENT === */
+.main{flex:1;overflow:hidden;position:relative;z-index:1}
+.screen{display:none;flex-direction:column;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.screen.active{display:flex}
+
+/* === HOME SCREEN === */
+.home-hero{padding:24px 16px 16px;text-align:center}
+.home-hero h1{font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--gd),var(--co),var(--em));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.4;margin-bottom:4px}
+.home-hero p{font-size:12px;color:var(--text-sub);line-height:1.6}
+.home-counter{display:inline-flex;align-items:center;gap:6px;background:var(--sf);border:1px solid var(--gb);border-radius:20px;padding:6px 14px;margin-top:10px;font-size:11px;color:var(--text-sub)}
+.home-counter strong{color:var(--gd);font-size:16px}
+
+/* Steps */
+.steps{padding:0 16px 16px;display:flex;flex-direction:column;gap:12px}
+.step-card{background:var(--sf);border:1px solid var(--gb);border-radius:16px;padding:16px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden;animation:fadeInUp .6s ease both}
+.step-card:nth-child(1){animation-delay:.1s;border-left:3px solid var(--co)}
+.step-card:nth-child(2){animation-delay:.25s;border-left:3px solid var(--em)}
+.step-card:nth-child(3){animation-delay:.4s;border-left:3px solid var(--sk)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:12px;font-weight:900;margin-right:8px;flex-shrink:0}
+.step-card:nth-child(1) .step-num{background:var(--co);color:#fff}
+.step-card:nth-child(2) .step-num{background:var(--em);color:#0F0F1A}
+.step-card:nth-child(3) .step-num{background:var(--sk);color:#fff}
+.step-top{display:flex;align-items:center;margin-bottom:6px}
+.step-title{font-size:15px;font-weight:700}
+.step-mascot{font-size:32px;position:absolute;right:12px;top:50%;transform:translateY(-50%);opacity:.8;animation:float 3s ease-in-out infinite}
+.step-card:nth-child(2) .step-mascot{animation-delay:.5s}
+.step-card:nth-child(3) .step-mascot{animation-delay:1s}
+@keyframes float{0%,100%{transform:translateY(-50%)}50%{transform:translateY(calc(-50% - 6px))}}
+.step-desc{font-size:12px;color:var(--text-sub);line-height:1.6;padding-right:40px}
+
+/* Rec Button */
+.rec-area{padding:20px 16px 32px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.rec-btn-wrap{position:relative;width:88px;height:88px}
+.rec-ring{position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--co);opacity:.4;animation:ringPulse 2s ease-out infinite}
+.rec-ring:nth-child(2){inset:-16px;animation-delay:.4s;opacity:.2}
+.rec-ring:nth-child(3){inset:-24px;animation-delay:.8s;opacity:.1}
+@keyframes ringPulse{0%{transform:scale(.95);opacity:.5}100%{transform:scale(1.15);opacity:0}}
+.rec-btn{width:88px;height:88px;border-radius:50%;border:none;background:linear-gradient(135deg,#FF4D6D,var(--co));color:#fff;font-size:32px;cursor:pointer;position:relative;z-index:1;box-shadow:0 0 30px rgba(255,107,138,.4),inset 0 -3px 6px rgba(0,0,0,.2);transition:transform .15s,box-shadow .15s}
+.rec-btn:active{transform:scale(.93);box-shadow:0 0 15px rgba(255,107,138,.3)}
+.rec-label{font-size:12px;color:var(--text-sub);font-weight:500}
+
+/* === RECORDING SCREEN === */
+.rec-screen{position:relative;background:linear-gradient(180deg,rgba(255,75,110,.06),transparent 60%)}
+.rec-mascot{text-align:center;padding:16px 0 8px;font-size:56px;animation:float 2.5s ease-in-out infinite}
+.rec-mascot-msg{text-align:center;font-size:12px;color:var(--co);font-weight:500;margin-bottom:8px;min-height:18px}
+.rec-timer{text-align:center;font-size:36px;font-weight:900;font-variant-numeric:tabular-nums;background:linear-gradient(135deg,var(--co),var(--gd));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;padding:4px 0}
+
+/* Visualizer */
+.viz-wrap{display:flex;justify-content:center;align-items:flex-end;height:60px;gap:2px;padding:8px 24px}
+.viz-bar{width:5px;min-height:3px;border-radius:3px;background:linear-gradient(180deg,var(--co),var(--em));transition:height .08s ease}
+
+/* Word counter */
+.word-counter{text-align:center;padding:4px;font-size:11px;color:var(--text-sub);flex-shrink:0}
+
+/* Transcript live */
+.lt-wrap{flex:1;min-height:80px;display:flex;flex-direction:column;margin:0 16px;border-radius:12px;background:var(--sf);border:1px solid var(--gb);overflow:hidden}
+.lt-header{padding:8px 12px;font-size:11px;color:var(--em);font-weight:700;border-bottom:1px solid var(--gb);flex-shrink:0;display:flex;align-items:center;gap:6px;background:rgba(45,212,168,.06)}
+.lt-header::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--em);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.lt-body{flex:1;overflow-y:auto;padding:10px 12px;font-size:13px;line-height:1.8;color:rgba(255,255,255,.85);min-height:0}
+.lt-body::-webkit-scrollbar{width:4px}
+.lt-body::-webkit-scrollbar-track{background:transparent}
+.lt-body::-webkit-scrollbar-thumb{background:var(--em);border-radius:2px}
+
+/* Stop area */
+.stop-area{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 16px calc(16px + var(--safe-bottom))}
+.stop-btn{width:64px;height:64px;border-radius:16px;border:none;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:24px;cursor:pointer;transition:all .2s;border:1px solid var(--gb)}
+.stop-btn:active{transform:scale(.9);background:rgba(255,255,255,.2)}
+.stop-label{font-size:11px;color:var(--text-sub)}
+
+/* === PROCESSING SCREEN === */
+.proc-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 16px;gap:24px}
+.proc-mascot{font-size:64px;animation:float 2s ease-in-out infinite}
+.proc-title{font-size:18px;font-weight:700;text-align:center}
+.proc-steps{width:100%;max-width:340px;display:flex;flex-direction:column;gap:10px}
+.proc-step{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;background:var(--sf);border:1px solid var(--gb);transition:all .4s}
+.proc-step.active{border-color:var(--em);background:rgba(45,212,168,.08)}
+.proc-step.done{border-color:rgba(45,212,168,.3);opacity:.7}
+.proc-step-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;background:var(--sf);flex-shrink:0;transition:all .4s}
+.proc-step.active .proc-step-icon{background:var(--em);color:#0F0F1A;animation:spin 1.5s linear infinite}
+.proc-step.done .proc-step-icon{background:rgba(45,212,168,.2);color:var(--em)}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.proc-step-text{font-size:13px;font-weight:500}
+.proc-step.active .proc-step-text{color:var(--em)}
+.proc-step.done .proc-step-text{color:var(--text-sub)}
+
+/* === RESULT SCREEN === */
+.res-screen{padding:0 0 80px}
+.res-banner{padding:20px 16px;text-align:center;background:linear-gradient(135deg,rgba(45,212,168,.08),rgba(240,192,64,.06))}
+.res-banner h2{font-size:18px;font-weight:900;background:linear-gradient(135deg,var(--gd),var(--em));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.res-banner .res-meta{font-size:11px;color:var(--text-sub);margin-top:4px}
+.res-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;margin-top:8px}
+.res-badge.ai{background:rgba(45,212,168,.15);color:var(--em)}
+.res-badge.local{background:rgba(255,255,255,.08);color:var(--text-sub)}
+
+.res-section{margin:12px 16px;border-radius:14px;background:var(--sf);border:1px solid var(--gb);overflow:hidden}
+.res-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--gb)}
+.res-section-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px}
+.res-copy-btn{background:none;border:none;color:var(--text-sub);font-size:16px;cursor:pointer;padding:4px 8px;border-radius:8px;transition:all .2s}
+.res-copy-btn:active{background:var(--sf);color:var(--em)}
+.res-section-body{padding:14px;font-size:13px;line-height:1.8;color:rgba(255,255,255,.85);white-space:pre-wrap;word-break:break-word;max-height:300px;overflow-y:auto}
+.res-section-body::-webkit-scrollbar{width:4px}
+.res-section-body::-webkit-scrollbar-thumb{background:var(--gb);border-radius:2px}
+
+.res-actions{display:flex;gap:8px;padding:16px;flex-wrap:wrap}
+.res-act-btn{flex:1;min-width:calc(50% - 4px);padding:12px;border-radius:12px;border:1px solid var(--gb);background:var(--sf);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font);transition:all .2s}
+.res-act-btn:active{transform:scale(.96);background:rgba(255,255,255,.1)}
+
+/* === HISTORY SCREEN === */
+.hist-screen{padding:0 0 20px}
+.hist-header{padding:16px;display:flex;align-items:center;justify-content:space-between}
+.hist-header h2{font-size:18px;font-weight:700}
+.hist-clear{background:none;border:1px solid rgba(255,107,138,.3);color:var(--co);font-size:11px;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:var(--font)}
+.hist-search{margin:0 16px 12px;position:relative}
+.hist-search input{width:100%;padding:10px 12px 10px 36px;border-radius:10px;border:1px solid var(--gb);background:var(--sf);color:var(--text);font-size:13px;font-family:var(--font);outline:none}
+.hist-search input:focus{border-color:var(--em)}
+.hist-search::before{content:'🔍';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px}
+.hist-list{padding:0 16px;display:flex;flex-direction:column;gap:8px}
+.hist-item{background:var(--sf);border:1px solid var(--gb);border-radius:12px;padding:14px;cursor:pointer;transition:all .2s;position:relative}
+.hist-item:active{background:rgba(255,255,255,.08)}
+.hist-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.hist-item-title{font-size:14px;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:8px}
+.hist-item-badge{font-size:10px;padding:2px 8px;border-radius:10px;flex-shrink:0}
+.hist-item-badge.ai{background:rgba(45,212,168,.12);color:var(--em)}
+.hist-item-badge.local{background:rgba(255,255,255,.06);color:var(--text-sub)}
+.hist-item-meta{font-size:11px;color:var(--text-sub);display:flex;gap:12px}
+.hist-item-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--text-sub);font-size:14px;cursor:pointer;padding:4px;opacity:.5;transition:opacity .2s}
+.hist-item-del:hover{opacity:1;color:var(--co)}
+.hist-empty{text-align:center;padding:48px 16px;color:var(--text-sub);font-size:14px}
+
+/* === SETTINGS MODAL === */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:flex-end;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{width:100%;max-width:480px;max-height:85vh;background:var(--bg);border-radius:20px 20px 0 0;border:1px solid var(--gb);border-bottom:none;overflow-y:auto;padding-bottom:var(--safe-bottom);animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-bar{width:40px;height:4px;background:var(--gb);border-radius:2px;margin:12px auto}
+.modal-hdr{padding:0 20px 16px;display:flex;align-items:center;justify-content:space-between}
+.modal-hdr h3{font-size:16px;font-weight:700}
+.modal-close{background:none;border:none;color:var(--text-sub);font-size:24px;cursor:pointer}
+.modal-body{padding:0 20px 24px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;color:var(--text-sub);margin-bottom:6px;font-weight:500}
+.field input,.field select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--gb);background:var(--sf);color:var(--text);font-size:13px;font-family:var(--font);outline:none}
+.field input:focus,.field select:focus{border-color:var(--em)}
+.field .hint{font-size:10px;color:var(--text-sub);margin-top:4px}
+.save-btn{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--em),var(--sk));color:#0F0F1A;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:transform .15s}
+.save-btn:active{transform:scale(.97)}
+
+/* Status indicator */
+.status-row{display:flex;align-items:center;gap:8px;padding:12px;border-radius:10px;background:var(--sf);margin-bottom:16px}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot.ok{background:var(--em)}
+.status-dot.ng{background:var(--co)}
+.status-text{font-size:12px;color:var(--text-sub);flex:1}
+.test-btn{background:none;border:1px solid var(--gb);color:var(--text-sub);font-size:11px;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:var(--font)}
+
+/* === BOTTOM NAV === */
+.bnav{position:relative;z-index:10;display:flex;background:rgba(15,15,26,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--gb);padding-bottom:var(--safe-bottom)}
+.bnav-btn{flex:1;padding:10px 0 8px;background:none;border:none;color:var(--text-sub);font-size:20px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:color .2s;font-family:var(--font)}
+.bnav-btn span{font-size:9px}
+.bnav-btn.active{color:var(--em)}
+
+/* === TOAST === */
+.toast-wrap{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none;width:90%;max-width:360px}
+.toast{padding:12px 16px;border-radius:12px;background:rgba(30,30,50,.95);border:1px solid var(--gb);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:12px;line-height:1.6;color:var(--text);animation:toastIn .3s ease;pointer-events:auto}
+@keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+/* === CONFIRM DIALOG === */
+.confirm-overlay{display:none;position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.6);align-items:center;justify-content:center;padding:20px}
+.confirm-overlay.show{display:flex}
+.confirm-box{background:var(--bg);border:1px solid var(--gb);border-radius:16px;padding:24px;max-width:320px;width:100%;text-align:center}
+.confirm-box p{font-size:14px;margin-bottom:6px;font-weight:700}
+.confirm-box .confirm-sub{font-size:12px;color:var(--text-sub);margin-bottom:20px}
+.confirm-btns{display:flex;gap:8px}
+.confirm-btns button{flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);border:none}
+.confirm-cancel{background:var(--sf);color:var(--text)}
+.confirm-ok{background:var(--co);color:#fff}
+
+/* === WEBVIEW WARNING === */
+.wv-warning{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);padding:40px 20px;text-align:center;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.wv-warning.show{display:flex}
+.wv-warning h2{font-size:18px;font-weight:700;color:var(--co)}
+.wv-warning p{font-size:13px;color:var(--text-sub);line-height:1.8}
+.wv-warning button{padding:14px 28px;border-radius:12px;border:none;background:var(--em);color:#0F0F1A;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font)}
+
+/* === HTTPS WARNING === */
+.https-bar{display:none;padding:8px 16px;background:rgba(255,107,138,.15);text-align:center;font-size:11px;color:var(--co);font-weight:500;border-bottom:1px solid rgba(255,107,138,.2)}
+.https-bar.show{display:block}
+
+/* Utility */
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<!-- HTTPS Warning -->
+<div class="https-bar" id="httpsBar">🔒 HTTPS接続が必要です。GitHub PagesまたはNetlifyにデプロイしてください。</div>
+
+<!-- WebView Warning -->
+<div class="wv-warning" id="wvWarn">
+  <div style="font-size:64px">🐑</div>
+  <h2>アプリ内ブラウザでは<br>マイクが使えません</h2>
+  <p>LINE・Instagram等のアプリ内で開いています。<br>下のボタンでURLをコピーし、<br><strong>Safari（iPhone）</strong>または<strong>Chrome</strong>で<br>直接開いてください。</p>
+  <button onclick="copyUrl()">📋 URLをコピーする</button>
+</div>
+
+<!-- Header -->
+<header class="hdr">
+  <div class="hdr-logo">
+    <div class="hdr-icon">🐑</div>
+    <div>
+      <div class="hdr-title">AIさんいんコンセルジュ議事録</div>
+      <div class="hdr-sub">日本一のトップセールスマンが作ったAI議事録</div>
+    </div>
+  </div>
+  <button class="hdr-btn" onclick="openSettings()" aria-label="設定">⚙️</button>
+</header>
+
+<!-- Toast -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- Main -->
+<main class="main">
+
+  <!-- HOME -->
+  <section class="screen active" id="sc-home">
+    <div class="home-hero">
+      <h1>AIさんいんコンセルジュ議事録</h1>
+      <p>録音からメール作成までを自動化<br>日本一のトップセールスマンのノウハウを再現</p>
+      <div class="home-counter" id="homeCounter">📝 作成した議事録 <strong id="counterNum">0</strong> 件</div>
+    </div>
+
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-top"><span class="step-num">1</span><span class="step-title">録音と文字起こし</span></div>
+        <div class="step-desc">ボタン1つで録音を開始し、音声をリアルタイムで文字にします。</div>
+        <div class="step-mascot">🐑</div>
+      </div>
+      <div class="step-card">
+        <div class="step-top"><span class="step-num">2</span><span class="step-title">AI要約とメール作成</span></div>
+        <div class="step-desc">Geminiが要約を作成し、日付とタイトルを付けて自動保存します。</div>
+        <div class="step-mascot">🐉</div>
+      </div>
+      <div class="step-card">
+        <div class="step-top"><span class="step-num">3</span><span class="step-title">共有・メール下書き</span></div>
+        <div class="step-desc">共有用のリンクが入ったメール下書きを、宛先へ自動で作成します。</div>
+        <div class="step-mascot">🐫</div>
+      </div>
+    </div>
+
+    <div class="rec-area">
+      <div class="rec-btn-wrap">
+        <div class="rec-ring"></div>
+        <div class="rec-ring"></div>
+        <div class="rec-ring"></div>
+        <button class="rec-btn" id="recBtn" onclick="startRec()" aria-label="録音開始">🎙️</button>
+      </div>
+      <div class="rec-label">タップして録音開始</div>
+    </div>
+  </section>
+
+  <!-- RECORDING -->
+  <section class="screen rec-screen" id="sc-rec">
+    <div class="rec-mascot" id="recMascot">🐑</div>
+    <div class="rec-mascot-msg" id="recMsg">録音中...がんばって聞いてるよ！</div>
+    <div class="rec-timer" id="recTimer">00:00:00</div>
+    <div class="viz-wrap" id="vizWrap"></div>
+    <div class="word-counter" id="wordCounter">📝 0文字 ・ 0行</div>
+    <div class="lt-wrap">
+      <div class="lt-header">✍️ リアルタイム文字起こし</div>
+      <div class="lt-body" id="ltBody">音声を認識しています...</div>
+    </div>
+    <div class="stop-area">
+      <button class="stop-btn" onclick="confirmStop()">⏹️</button>
+      <div class="stop-label">録音停止</div>
+    </div>
+  </section>
+
+  <!-- PROCESSING -->
+  <section class="screen proc-screen" id="sc-proc">
+    <div class="proc-mascot" id="procMascot">🐉</div>
+    <div class="proc-title">AI処理中...</div>
+    <div class="proc-steps" id="procSteps">
+      <div class="proc-step" id="ps0"><div class="proc-step-icon">📝</div><div class="proc-step-text">文字起こし確認</div></div>
+      <div class="proc-step" id="ps1"><div class="proc-step-icon">🏷️</div><div class="proc-step-text">タイトル生成</div></div>
+      <div class="proc-step" id="ps2"><div class="proc-step-icon">📋</div><div class="proc-step-text">AI要約作成</div></div>
+      <div class="proc-step" id="ps3"><div class="proc-step-icon">💌</div><div class="proc-step-text">メール下書き生成</div></div>
+      <div class="proc-step" id="ps4"><div class="proc-step-icon">💾</div><div class="proc-step-text">保存</div></div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen res-screen" id="sc-res">
+    <div class="res-banner">
+      <div style="font-size:40px;margin-bottom:8px">🎉</div>
+      <h2 id="resTitle">議事録が完成しました！</h2>
+      <div class="res-meta" id="resMeta"></div>
+      <div class="res-badge ai" id="resBadge">🧠 Gemini AI</div>
+    </div>
+
+    <div class="res-section">
+      <div class="res-section-hdr">
+        <div class="res-section-title">📋 AI要約</div>
+        <button class="res-copy-btn" onclick="copySection('resSummary')">📋</button>
+      </div>
+      <div class="res-section-body" id="resSummary"></div>
+    </div>
+
+    <div class="res-section">
+      <div class="res-section-hdr">
+        <div class="res-section-title">🎤 文字起こし</div>
+        <button class="res-copy-btn" onclick="copySection('resTx')">📋</button>
+      </div>
+      <div class="res-section-body" id="resTx"></div>
+    </div>
+
+    <div class="res-section">
+      <div class="res-section-hdr">
+        <div class="res-section-title">💌 メール下書き</div>
+        <button class="res-copy-btn" onclick="copySection('resEmail')">📋</button>
+      </div>
+      <div class="res-section-body" id="resEmail"></div>
+    </div>
+
+    <div class="res-actions">
+      <button class="res-act-btn" onclick="openMailer()">📧 メールで開く</button>
+      <button class="res-act-btn" onclick="downloadResult()">💾 ダウンロード</button>
+      <button class="res-act-btn" onclick="shareResult()">📤 共有</button>
+      <button class="res-act-btn" onclick="regenAI()">🔄 AI再生成</button>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="screen hist-screen" id="sc-hist">
+    <div class="hist-header">
+      <h2>📂 履歴</h2>
+      <button class="hist-clear" id="histClearBtn" onclick="clearAllHist()">全件削除</button>
+    </div>
+    <div class="hist-search"><input type="text" id="histSearch" placeholder="タイトル・日付で検索..." oninput="renderHist()"></div>
+    <div class="hist-list" id="histList"></div>
+  </section>
+
+</main>
+
+<!-- Bottom Nav -->
+<nav class="bnav">
+  <button class="bnav-btn active" onclick="navTo('sc-home',this)"><div>🏠</div><span>ホーム</span></button>
+  <button class="bnav-btn" onclick="navTo('sc-hist',this)"><div>📂</div><span>履歴</span></button>
+  <button class="bnav-btn" onclick="openSettings()"><div>⚙️</div><span>設定</span></button>
+</nav>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settingsModal" onclick="if(event.target===this)closeSettings()">
+  <div class="modal">
+    <div class="modal-bar"></div>
+    <div class="modal-hdr">
+      <h3>⚙️ 設定</h3>
+      <button class="modal-close" onclick="closeSettings()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="status-row">
+        <div class="status-dot" id="statusDot"></div>
+        <div class="status-text" id="statusText">接続確認中...</div>
+        <button class="test-btn" onclick="testConnection()">テスト</button>
+      </div>
+
+      <div class="field">
+        <label>🔗 GASプロキシURL</label>
+        <input type="text" id="sGasUrl" placeholder="https://script.google.com/macros/s/.../exec">
+        <div class="hint">GASプロキシ設定時はAPIキー不要</div>
+      </div>
+      <div class="field">
+        <label>🔑 Gemini APIキー</label>
+        <input type="password" id="sApiKey" placeholder="AIza...">
+        <div class="hint">GASプロキシ未設定時に使用。https://aistudio.google.com で無料取得</div>
+      </div>
+      <div class="field">
+        <label>📧 メール送信先</label>
+        <input type="email" id="sEmail" placeholder="example@company.com">
+      </div>
+      <div class="field">
+        <label>📁 Google Drive フォルダID</label>
+        <input type="text" id="sDriveId" placeholder="省略可">
+      </div>
+      <div class="field">
+        <label>🌐 音声認識の言語</label>
+        <select id="sLang">
+          <option value="ja-JP">日本語</option>
+          <option value="en-US">English</option>
+          <option value="zh-CN">中文</option>
+          <option value="ko-KR">한국어</option>
+        </select>
+      </div>
+      <button class="save-btn" onclick="saveSettings()">💾 保存して閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Dialog -->
+<div class="confirm-overlay" id="confirmDlg">
+  <div class="confirm-box">
+    <p id="confirmMsg">録音を停止しますか？</p>
+    <div class="confirm-sub" id="confirmSub"></div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="closeConfirm()">キャンセル</button>
+      <button class="confirm-ok" id="confirmOk">停止する</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== CONSTANTS & STATE ==========
+const GEM_URL='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const STORE_S='ai_gj_s',STORE_H='ai_gj_h',MAX_HIST=50;
+const MASCOT_MSGS=['録音中...がんばって聞いてるよ！','しっかり記録してるよ🐑','大事な会議だね、任せて！','いい議論が聞こえるよ✨','メモはお任せ🐑'];
+
+let settings={gasUrl:'',apiKey:'',email:'',driveId:'',lang:'ja-JP'};
+let history=[];
+let isRecording=false,mediaRec=null,audioCtx=null,analyser=null,animFrame=null;
+let sr=null,fullTx='',interimTx='',recStart=null,timerInt=null;
+let wakeLock=null;
+let currentResult=null;
+
+// ========== INIT ==========
+function init(){
+  loadSettings();loadHistory();
+  renderHist();updateCounter();
+  initVizBars();
+  checkEnv();
+  updateStatus();
+}
+
+function checkEnv(){
+  // WebView check
+  const ua=navigator.userAgent||'';
+  const wv=/FBAN|FBAV|Instagram|Line\/|Twitter|NAVER|DaumApps|GSA\/|CriOS.*wv|; wv\)/i.test(ua);
+  const noMedia=!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia;
+  if(wv||noMedia){
+    const el=document.getElementById('wvWarn');
+    if(el)el.classList.add('show');
+  }
+  // HTTPS check
+  if(location.protocol!=='https:'&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){
+    const bar=document.getElementById('httpsBar');
+    if(bar)bar.classList.add('show');
+  }
+}
+
+function copyUrl(){
+  const url=location.href;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(()=>toast('✅ URLをコピーしました！Safariで開いてください'));
+  }else{
+    fbCopy(url);toast('✅ URLをコピーしました！');
+  }
+}
+
+// ========== SETTINGS ==========
+function loadSettings(){
+  try{const s=JSON.parse(localStorage.getItem(STORE_S));if(s)settings=Object.assign(settings,s)}catch(e){}
+  document.getElementById('sGasUrl').value=settings.gasUrl||'';
+  document.getElementById('sApiKey').value=settings.apiKey||'';
+  document.getElementById('sEmail').value=settings.email||'';
+  document.getElementById('sDriveId').value=settings.driveId||'';
+  document.getElementById('sLang').value=settings.lang||'ja-JP';
+}
+function saveSettings(){
+  settings.gasUrl=document.getElementById('sGasUrl').value.trim();
+  settings.apiKey=document.getElementById('sApiKey').value.trim();
+  settings.email=document.getElementById('sEmail').value.trim();
+  settings.driveId=document.getElementById('sDriveId').value.trim();
+  settings.lang=document.getElementById('sLang').value;
+  localStorage.setItem(STORE_S,JSON.stringify(settings));
+  closeSettings();toast('✅ 設定を保存しました');updateStatus();
+}
+function openSettings(){document.getElementById('settingsModal').classList.add('show');updateStatus()}
+function closeSettings(){document.getElementById('settingsModal').classList.remove('show')}
+
+async function testConnection(){
+  const dot=document.getElementById('statusDot'),txt=document.getElementById('statusText');
+  dot.className='status-dot';txt.textContent='テスト中...';
+  try{
+    if(settings.gasUrl){
+      const r=await fetch(settings.gasUrl+'?test=1',{method:'GET'});
+      if(r.ok){dot.classList.add('ok');txt.textContent='✅ GASプロキシ接続OK';}
+      else throw new Error('GAS error');
+    }else if(settings.apiKey){
+      const r=await fetch(GEM_URL+'?key='+settings.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:'test'}]}],generationConfig:{maxOutputTokens:5}})});
+      if(r.ok){dot.classList.add('ok');txt.textContent='✅ Gemini API接続OK';}
+      else throw new Error('API error '+r.status);
+    }else{
+      dot.classList.add('ng');txt.textContent='⚠️ GAS URLまたはAPIキーを設定してください';
+    }
+  }catch(e){dot.classList.add('ng');txt.textContent='❌ 接続失敗: '+e.message}
+}
+function updateStatus(){
+  const dot=document.getElementById('statusDot'),txt=document.getElementById('statusText');
+  if(settings.gasUrl){dot.className='status-dot ok';txt.textContent='GASプロキシ設定済み'}
+  else if(settings.apiKey){dot.className='status-dot ok';txt.textContent='APIキー設定済み'}
+  else{dot.className='status-dot ng';txt.textContent='未設定（ローカルモードで動作）'}
+}
+
+// ========== HISTORY ==========
+function loadHistory(){try{history=JSON.parse(localStorage.getItem(STORE_H))||[]}catch(e){history=[]}}
+function saveHistory(){localStorage.setItem(STORE_H,JSON.stringify(history.slice(0,MAX_HIST)))}
+function updateCounter(){document.getElementById('counterNum').textContent=history.length}
+
+function renderHist(){
+  const q=(document.getElementById('histSearch').value||'').toLowerCase();
+  const list=document.getElementById('histList');
+  const btn=document.getElementById('histClearBtn');
+  const filtered=history.filter(h=>{
+    if(!q)return true;
+    return (h.title||'').toLowerCase().includes(q)||(h.dateStr||'').includes(q)||(h.transcript||'').toLowerCase().includes(q);
+  });
+  btn.style.display=history.length?'block':'none';
+  if(!filtered.length){list.innerHTML='<div class="hist-empty">📝 '+(q?'検索結果がありません':'まだ議事録がありません。<br>録音ボタンを押して最初の議事録を作りましょう！')+'</div>';return}
+  list.innerHTML=filtered.map((h,i)=>{
+    const idx=history.indexOf(h);
+    return `<div class="hist-item" onclick="showResult(${idx})">
+      <button class="hist-item-del" onclick="event.stopPropagation();delHist(${idx})">✕</button>
+      <div class="hist-item-top">
+        <div class="hist-item-title">${esc(h.title||'無題')}</div>
+        <div class="hist-item-badge ${h.usedAI?'ai':'local'}">${h.usedAI?'🧠 AI':'📝 ローカル'}</div>
+      </div>
+      <div class="hist-item-meta"><span>${esc(h.dateStr||'')}</span><span>⏱️ ${esc(h.duration||'')}</span></div>
+    </div>`}).join('');
+}
+function delHist(i){history.splice(i,1);saveHistory();renderHist();updateCounter();toast('削除しました')}
+function clearAllHist(){
+  if(!history.length)return;
+  showConfirm('全ての履歴を削除しますか？',history.length+'件の議事録が完全に削除されます。',()=>{
+    history=[];saveHistory();renderHist();updateCounter();toast('全件削除しました');
+  });
+}
+
+function showResult(idx){
+  currentResult=history[idx];if(!currentResult)return;
+  displayResult(currentResult);
+  navTo('sc-res');
+}
+
+// ========== NAVIGATION ==========
+function navTo(id,btn){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(id);if(el)el.classList.add('active');
+  document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  else{
+    const btns=document.querySelectorAll('.bnav-btn');
+    if(id==='sc-home')btns[0]?.classList.add('active');
+    else if(id==='sc-hist'){btns[1]?.classList.add('active');renderHist()}
+  }
+}
+
+// ========== RECORDING ==========
+async function startRec(){
+  if(isRecording)return;
+
+  // Env check
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    toast('⚠️ このブラウザではマイクが使えません。Safari/Chromeで開いてください。',6000);return;
+  }
+
+  try{
+    // Vibrate
+    if(navigator.vibrate)navigator.vibrate(100);
+
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    isRecording=true;fullTx='';interimTx='';recStart=new Date();
+
+    // Audio context for visualizer
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended')await audioCtx.resume();
+    const src=audioCtx.createMediaStreamSource(stream);
+    analyser=audioCtx.createAnalyser();analyser.fftSize=128;
+    src.connect(analyser);
+
+    // MediaRecorder
+    const mimeType=['audio/webm','audio/mp4','audio/ogg'].find(m=>MediaRecorder.isTypeSupported(m))||'';
+    mediaRec=new MediaRecorder(stream,mimeType?{mimeType}:{});
+    mediaRec.start();
+
+    // Wake Lock
+    try{if('wakeLock' in navigator)wakeLock=await navigator.wakeLock.request('screen')}catch(e){}
+
+    // UI
+    navTo('sc-rec');
+    document.getElementById('ltBody').textContent='音声を認識しています...';
+    document.getElementById('recTimer').textContent='00:00:00';
+    document.getElementById('wordCounter').textContent='📝 0文字 ・ 0行';
+    setMascotMsg();
+    startTimer();startViz();startSR();
+  }catch(e){
+    isRecording=false;
+    const name=e.name||'';
+    if(name==='NotAllowedError'){
+      const iOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+      if(iOS)toast('🎤 マイクを許可してください\niOS: アドレスバー「ぁあ」→「Webサイトの設定」→ マイク → 許可',6000);
+      else toast('🎤 マイクへのアクセスを許可してください。\nアドレスバーの🔒をクリック → マイク → 許可',6000);
+    }else{
+      toast('⚠️ マイクエラー: '+e.message,6000);
+    }
+  }
+}
+
+function setMascotMsg(){
+  const el=document.getElementById('recMsg');
+  el.textContent=MASCOT_MSGS[Math.floor(Math.random()*MASCOT_MSGS.length)];
+}
+
+function confirmStop(){
+  if(!isRecording)return;
+  const dur=document.getElementById('recTimer').textContent;
+  const chars=fullTx.length+(interimTx||'').length;
+  showConfirm('録音を停止しますか？','⏱️ '+dur+' ・ 📝 '+chars+'文字',()=>stopRec());
+}
+
+function stopRec(){
+  if(!isRecording)return;
+  isRecording=false;
+  if(navigator.vibrate)navigator.vibrate([50,50,50]);
+
+  // Stop SR
+  if(sr){try{sr.stop()}catch(e){}sr=null}
+  // Stop timer
+  if(timerInt){clearInterval(timerInt);timerInt=null}
+  // Stop viz
+  stopViz();
+  // Stop media recorder
+  if(mediaRec&&mediaRec.state!=='inactive'){try{mediaRec.stop()}catch(e){}}
+  if(mediaRec){try{mediaRec.stream.getTracks().forEach(t=>t.stop())}catch(e){}}
+  // Release wake lock
+  if(wakeLock){try{wakeLock.release()}catch(e){}wakeLock=null}
+  // Close audio context
+  if(audioCtx){try{audioCtx.close()}catch(e){}audioCtx=null;analyser=null}
+
+  const recEnd=new Date();
+  // Check if we have text
+  const tx=(fullTx||'').trim();
+  if(!tx){
+    toast('⚠️ 音声を認識できませんでした。デモデータで処理します。',4000);
+    fullTx='本日は新規プロジェクトの進捗について話し合いました。田中さんから現在の開発状況について報告があり、予定通り進んでいるとのことです。来月の15日までにプロトタイプを完成させる予定です。次回は来週水曜日に進捗確認を行います。';
+  }
+  processPipeline(recEnd);
+}
+
+// ========== SPEECH RECOGNITION ==========
+function startSR(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('⚠️ 音声認識非対応ブラウザです');return}
+  sr=new SR();sr.continuous=true;sr.interimResults=true;sr.lang=settings.lang||'ja-JP';
+  sr.onresult=(e)=>{
+    let interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t=e.results[i][0].transcript;
+      if(e.results[i].isFinal){fullTx+=t+'\n'}else{interim=t}
+    }
+    interimTx=interim;
+    updateLiveText();
+  };
+  sr.onerror=(e)=>{if(isRecording&&e.error!=='aborted'&&e.error!=='no-speech')setTimeout(()=>trySRStart(),500)};
+  sr.onend=()=>{if(isRecording)setTimeout(()=>trySRStart(),300)};
+  trySRStart();
+}
+function trySRStart(){if(sr&&isRecording){try{sr.start()}catch(e){}}}
+
+function updateLiveText(){
+  const el=document.getElementById('ltBody');
+  const display=fullTx+(interimTx?'<span style="color:var(--gd)">'+esc(interimTx)+'</span>':'');
+  el.innerHTML=display||'音声を認識しています...';
+  el.scrollTop=el.scrollHeight;
+  // Update counter
+  const total=fullTx.length+(interimTx||'').length;
+  const lines=(fullTx.match(/\n/g)||[]).length+(interimTx?1:0);
+  document.getElementById('wordCounter').textContent='📝 '+total+'文字 ・ '+lines+'行';
+}
+
+// ========== TIMER ==========
+function startTimer(){
+  const el=document.getElementById('recTimer');
+  const start=Date.now();
+  el.textContent='00:00:00';
+  timerInt=setInterval(()=>{
+    const d=Date.now()-start;
+    const h=Math.floor(d/3600000);
+    const m=Math.floor((d%3600000)/60000);
+    const s=Math.floor((d%60000)/1000);
+    el.textContent=pad(h)+':'+pad(m)+':'+pad(s);
+  },1000);
+}
+function pad(n){return n<10?'0'+n:''+n}
+
+// ========== VISUALIZER ==========
+function initVizBars(){
+  const w=document.getElementById('vizWrap');
+  w.innerHTML='';
+  for(let i=0;i<44;i++){const b=document.createElement('div');b.className='viz-bar';w.appendChild(b)}
+}
+function startViz(){
+  if(!analyser)return;
+  const bars=document.querySelectorAll('.viz-bar');
+  const buf=new Uint8Array(analyser.frequencyBinCount);
+  function draw(){
+    analyser.getByteFrequencyData(buf);
+    const step=Math.floor(buf.length/44);
+    for(let i=0;i<44;i++){
+      const val=buf[i*step]||0;
+      bars[i].style.height=Math.max(3,val/255*55)+'px';
+    }
+    animFrame=requestAnimationFrame(draw);
+  }
+  draw();
+}
+function stopViz(){
+  if(animFrame){cancelAnimationFrame(animFrame);animFrame=null}
+  document.querySelectorAll('.viz-bar').forEach(b=>b.style.height='3px');
+}
+
+// ========== PROCESSING PIPELINE ==========
+async function processPipeline(endTime){
+  navTo('sc-proc');
+  const tx=fullTx.trim();
+  const start=recStart;const end=endTime;
+  const dur=document.getElementById('recTimer').textContent;
+
+  // Reset steps
+  for(let i=0;i<5;i++){
+    const el=document.getElementById('ps'+i);
+    el.className='proc-step';
+  }
+
+  let usedAI=false;
+  let title='',summary='',email='';
+
+  // Step 0: Confirm text
+  await setStep(0);
+  await delay(600);
+
+  // Step 1: Title
+  await setStep(1);
+  try{title=await genTitle(tx);usedAI=true}catch(e){title=lTitle(tx)}
+
+  // Step 2: Summary
+  await setStep(2);
+  try{summary=await genSummary(tx);usedAI=true}catch(e){summary=lSummary(tx)}
+
+  // Step 3: Email
+  await setStep(3);
+  try{email=await genEmail(summary,title,fmtDate(end));usedAI=true}catch(e){email=lEmail(summary,title,fmtDate(end))}
+
+  // Step 4: Save
+  await setStep(4);
+  const ts=fmtTime(start),te=fmtTime(end);
+  const fileName='['+title+']_'+fmtDF(end)+'_'+ts.replace(':','')+'-'+te.replace(':','');
+  const record={
+    id:Date.now(),title,fileName,dateStr:fmtDate(end),duration:dur,
+    timeStart:ts,timeEnd:te,transcript:tx,summary,email,
+    emailTo:settings.email||'',usedAI
+  };
+  history.unshift(record);saveHistory();updateCounter();
+  currentResult=record;
+  await delay(500);
+
+  // Show result
+  displayResult(record);
+  navTo('sc-res');
+}
+
+async function setStep(n){
+  for(let i=0;i<5;i++){
+    const el=document.getElementById('ps'+i);
+    if(i<n)el.className='proc-step done';
+    else if(i===n)el.className='proc-step active';
+    else el.className='proc-step';
+  }
+  // Change mascot
+  const m=document.getElementById('procMascot');
+  if(n<=1)m.textContent='🐉';
+  else if(n<=3)m.textContent='🐉';
+  else m.textContent='🐫';
+  await delay(200);
+}
+
+// ========== GEMINI API ==========
+async function callGemini(prompt){
+  const ctrl=new AbortController();
+  const timer=setTimeout(()=>ctrl.abort(),30000);
+
+  let resp;
+  if(settings.gasUrl){
+    resp=await fetch(settings.gasUrl,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({prompt}),
+      signal:ctrl.signal
+    });
+  }else if(settings.apiKey){
+    resp=await fetch(GEM_URL+'?key='+settings.apiKey,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        contents:[{parts:[{text:prompt}]}],
+        generationConfig:{temperature:0.7,maxOutputTokens:2048}
+      }),
+      signal:ctrl.signal
+    });
+  }else{
+    throw new Error('NO_KEY');
+  }
+  clearTimeout(timer);
+
+  if(!resp.ok){
+    const errText=await resp.text().catch(()=>'');
+    if(resp.status===429)toast('⚠️ API制限到達。しばらくお待ちください',4000);
+    else if(resp.status===400)toast('⚠️ APIキーが無効です',4000);
+    throw new Error('API_ERROR_'+resp.status);
+  }
+
+  const data=await resp.json();
+  if(settings.gasUrl){
+    return data.text||data.result||JSON.stringify(data);
+  }else{
+    return data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+  }
+}
+
+async function genTitle(tx){
+  const prompt='あなたは優秀な秘書です。以下の会議の文字起こしを読んで、会議のタイトルを1つだけ生成してください。\nルール：20文字以内の簡潔なタイトル、タイトルのみを出力（説明不要）\n\n'+tx.substring(0,3000);
+  return (await callGemini(prompt)).trim().replace(/[「」『』【】]/g,'').substring(0,20);
+}
+
+async function genSummary(tx){
+  const prompt='あなたは優秀な秘書です。以下の会議の文字起こしを読んで、構造化された議事録要約を作成してください。\n\n以下の4セクションで構成してください：\n【会議概要】会議の目的と全体の流れを2〜3文で\n【主要な議題と決定事項】箇条書きで各議題と決定事項\n【アクションアイテム】誰が・何を・いつまでに\n【次回予定】次回の会議予定があれば記載\n\n文字起こし：\n'+tx.substring(0,4000);
+  return await callGemini(prompt);
+}
+
+async function genEmail(summary,title,dateStr){
+  const prompt='あなたは日本一のトップセールスマンの秘書です。以下の議事録の内容を踏まえ、相手への感謝、会議の意義、そして「ご確認宜しくお願い致します」という意図を、非常に丁寧かつ情熱的なビジネスメール（長文）に広げてください。\n\n構成は：時候の挨拶、会議の御礼、要約の抜粋、今後の展望、締めの挨拶、としてください。\n\nルール：\n・「関係者各位」で始めること\n・時候の挨拶は現在の季節に合わせること\n・議事録ファイルへのリンク箇所を「📄 [議事録ファイルリンク]」として残すこと\n・「敬具」で締めること\n・情熱的だが品のある文体で、相手を大切にする気持ちが伝わるように\n\n会議タイトル：'+title+'\n会議日：'+dateStr+'\n\n議事録要約：\n'+summary;
+  return await callGemini(prompt);
+}
+
+// ========== LOCAL FALLBACK ==========
+function lTitle(tx){
+  const keywords=['会議','打ち合わせ','報告','相談','計画','戦略','プロジェクト','進捗','確認'];
+  for(const k of keywords){if(tx.includes(k))return k+'の議事録'}
+  return '会議の議事録';
+}
+function lSummary(tx){
+  const lines=tx.split('\n').filter(l=>l.trim()).slice(0,5);
+  return '【会議概要】\n本会議の内容を以下にまとめます。\n\n【主要な議題と決定事項】\n'+lines.map(l=>'・'+l.trim().substring(0,80)).join('\n')+'\n\n【アクションアイテム】\n・確認事項は各担当者にて対応予定\n\n【次回予定】\n・次回日程は別途調整';
+}
+function lEmail(summary,title,dateStr){
+  const season=getSeasonGreeting();
+  return '関係者各位\n\n'+season+'\n\nさて、'+dateStr+'に開催いたしました「'+title+'」につきまして、\nご多忙の中ご参加いただき、誠にありがとうございました。\n\n下記の通り議事録をまとめましたので、ご確認のほどよろしくお願いいたします。\n\n📄 [議事録ファイルリンク]\n\n'+summary.substring(0,500)+'\n\n今後とも、皆様のお力添えを賜りながら、プロジェクトの成功に向けて\n全力で取り組んでまいります。引き続きご支援のほど、よろしくお願い申し上げます。\n\nご確認宜しくお願い致します。\n\n敬具';
+}
+function getSeasonGreeting(){
+  const m=new Date().getMonth()+1;
+  if(m<=2||m===12)return '厳寒の候、皆様におかれましてはますますご健勝のこととお慶び申し上げます。';
+  if(m<=5)return '春暖の候、皆様におかれましてはますますご清栄のこととお慶び申し上げます。';
+  if(m<=8)return '盛夏の候、皆様におかれましてはますますご活躍のこととお慶び申し上げます。';
+  return '秋涼の候、皆様におかれましてはますますご健勝のこととお慶び申し上げます。';
+}
+
+// ========== DISPLAY RESULT ==========
+function displayResult(r){
+  document.getElementById('resTitle').textContent=r.title||'無題';
+  document.getElementById('resMeta').textContent=(r.dateStr||'')+' ・ '+(r.duration||'')+' ・ '+(r.fileName||'');
+  const badge=document.getElementById('resBadge');
+  badge.className=r.usedAI?'res-badge ai':'res-badge local';
+  badge.textContent=r.usedAI?'🧠 Gemini AI':'📝 ローカル';
+  document.getElementById('resSummary').textContent=r.summary||'';
+  document.getElementById('resTx').textContent=r.transcript||'';
+  document.getElementById('resEmail').textContent=r.email||'';
+}
+
+// ========== RESULT ACTIONS ==========
+function copySection(id){
+  const el=document.getElementById(id);if(!el)return;
+  const text=el.textContent;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>toast('📋 コピーしました')).catch(()=>{fbCopy(text);toast('📋 コピーしました')});
+  }else{fbCopy(text);toast('📋 コピーしました')}
+}
+function fbCopy(text){
+  const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy')}catch(e){}
+  document.body.removeChild(ta);
+}
+
+function openMailer(){
+  if(!currentResult)return;
+  const to=currentResult.emailTo||settings.email||'';
+  const subj=encodeURIComponent('【議事録】'+(currentResult.title||''));
+  const body=encodeURIComponent(currentResult.email||'');
+  window.location.href='mailto:'+to+'?subject='+subj+'&body='+body;
+}
+
+function downloadResult(){
+  if(!currentResult)return;
+  const text='タイトル: '+currentResult.title+'\n日付: '+currentResult.dateStr+'\n時間: '+currentResult.timeStart+'〜'+currentResult.timeEnd+'\n録音時間: '+currentResult.duration+'\n\n━━━ AI要約 ━━━\n'+currentResult.summary+'\n\n━━━ 文字起こし ━━━\n'+currentResult.transcript+'\n\n━━━ メール下書き ━━━\n'+currentResult.email;
+  const blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=(currentResult.fileName||'gijiroku')+'.txt';
+  a.click();URL.revokeObjectURL(a.href);
+  toast('💾 ダウンロードしました');
+}
+
+async function shareResult(){
+  if(!currentResult)return;
+  const data={
+    title:'【議事録】'+currentResult.title,
+    text:currentResult.summary||currentResult.transcript||''
+  };
+  if(navigator.share){
+    try{await navigator.share(data);return}catch(e){}
+  }
+  fbCopy(data.title+'\n\n'+data.text);toast('📤 内容をコピーしました');
+}
+
+async function regenAI(){
+  if(!currentResult||!currentResult.transcript)return;
+  toast('🔄 AI再生成中...');
+  const tx=currentResult.transcript;
+  try{
+    currentResult.title=await genTitle(tx);
+    currentResult.summary=await genSummary(tx);
+    currentResult.email=await genEmail(currentResult.summary,currentResult.title,currentResult.dateStr);
+    currentResult.usedAI=true;
+    // Update history
+    const idx=history.findIndex(h=>h.id===currentResult.id);
+    if(idx>=0)history[idx]=currentResult;
+    saveHistory();
+    displayResult(currentResult);
+    toast('✅ AI再生成完了！');
+  }catch(e){
+    toast('⚠️ AI再生成に失敗しました: '+e.message,4000);
+  }
+}
+
+// ========== CONFIRM DIALOG ==========
+function showConfirm(msg,sub,onOk){
+  document.getElementById('confirmMsg').textContent=msg;
+  document.getElementById('confirmSub').textContent=sub||'';
+  const btn=document.getElementById('confirmOk');
+  btn.onclick=()=>{closeConfirm();onOk()};
+  document.getElementById('confirmDlg').classList.add('show');
+}
+function closeConfirm(){document.getElementById('confirmDlg').classList.remove('show')}
+
+// ========== TOAST ==========
+function toast(msg,dur){
+  dur=dur||3000;
+  const wrap=document.getElementById('toastWrap');
+  const el=document.createElement('div');el.className='toast';
+  el.textContent=msg;
+  wrap.appendChild(el);
+  setTimeout(()=>{el.style.transition='opacity .3s';el.style.opacity='0';setTimeout(()=>el.remove(),300)},dur);
+}
+
+// ========== UTILS ==========
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
+function fmtDate(d){return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日'}
+function fmtTime(d){return pad(d.getHours())+':'+pad(d.getMinutes())}
+function fmtDF(d){return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())}
+function delay(ms){return new Promise(r=>setTimeout(r,ms))}
+
+// ========== START ==========
+init();
+</script>
+</body>
+</html>
