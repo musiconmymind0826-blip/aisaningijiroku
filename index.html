@@ -9,7 +9,8 @@
 <title>AIさんいんコンセルジュ議事録</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;300;400;500;700;900&family=Shippori+Mincho+B1:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQUnjgZXjgpPjgYTjgpPjgrPjg7Pjgrvjg6vjgrjjg6XorbfkuovpjLIiLCJzaG9ydF9uYW1lIjoiQUnorbfkuovpjLIiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoi<style>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQUnjgZXjgpPjgYTjgpPjgrPjg7Pjgrvjg6vjgrjjg6XorbfkuovpjLIiLCJzaG9ydF9uYW1lIjoiQUnorbfkuovpjLIiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBhMGEwYyIsInRoZW1lX2NvbG9yIjoiIzBhMGEwYyJ9">
+<style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
 --bg:#0a0a0c;--bg2:#111114;--bg3:#1a1a1e;
@@ -20,83 +21,67 @@
 --accent:#c9a84c;--accent2:#d4956a;--accent3:#e0c06a;
 --glow:rgba(201,168,76,.1);
 --font:'Noto Sans JP',system-ui,sans-serif;
---min:'Shippori Mincho B1','Georgia',serif;
+--min:'Shippori Mincho B1',Georgia,serif;
 --safe-bottom:env(safe-area-inset-bottom,0px);
 --em:#c9a84c;--co:#d4956a;--gd:#c9a84c;--sk:#c9a84c;--lv:#c9a84c;
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
 body{display:flex;flex-direction:column;position:relative}
 
-/* === PHOTO BG === */
-.bg-glow{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse at 30% 20%,#1a1520 0%,#0d0d12 50%,#0a0a0c 100%);
-}
-.bg-glow::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E"),radial-gradient(ellipse at 70% 80%,rgba(201,168,76,.03),transparent 60%)}
+.bg-glow{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 30% 20%,#1a1520 0%,#0d0d12 50%,#0a0a0c 100%)}
+.bg-glow::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 80%,rgba(201,168,76,.03),transparent 60%)}
 
-/* === HEADER === */
 .hdr{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;padding-top:calc(14px + env(safe-area-inset-top,0px));background:rgba(10,10,12,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 .hdr::after{content:'';position:absolute;bottom:0;left:24px;right:24px;height:1px;background:rgba(201,168,76,.2)}
 .hdr-logo{display:flex;align-items:center;gap:12px}
-.hdr-icon{width:30px;height:30px;border-radius:0;background:transparent;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:14px}
+.hdr-icon{width:30px;height:30px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:14px}
 .hdr-title{font-family:var(--min);font-size:14px;font-weight:500;color:var(--gold);letter-spacing:2px;line-height:1.2}
 .hdr-sub{font-size:8px;color:var(--text3);font-weight:300;letter-spacing:2px;text-transform:uppercase}
 .hdr-btn{background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:8px;transition:color .3s}
 .hdr-btn:hover,.hdr-btn:active{color:var(--gold)}
 
-/* === MAIN === */
 .main{flex:1;overflow:hidden;position:relative;z-index:1}
 .screen{display:none;flex-direction:column;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
 .screen.active{display:flex}
 
-/* === SCROLL REVEAL ANIMATION === */
 @keyframes revealUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes revealFade{from{opacity:0}to{opacity:1}}
 @keyframes revealLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-/* === HOME === */
 .home-hero{padding:40px 28px 24px;position:relative}
 .home-hero::before{content:'';position:absolute;top:20px;left:28px;width:28px;height:1px;background:var(--gold);animation:revealLine 1s .3s cubic-bezier(.22,.68,0,1) both;transform-origin:left}
 .home-hero h1{font-family:var(--min);font-size:26px;font-weight:500;color:var(--text);line-height:1.7;margin-bottom:8px;letter-spacing:2px;animation:revealUp .8s .2s cubic-bezier(.22,.68,0,1) both}
 .home-hero p{font-size:11px;color:var(--text2);line-height:2;font-weight:300;letter-spacing:.5px;animation:revealUp .8s .4s cubic-bezier(.22,.68,0,1) both}
-.home-counter{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:0;padding:8px 18px;margin-top:16px;font-size:10px;color:var(--text2);letter-spacing:1px;animation:revealUp .8s .5s cubic-bezier(.22,.68,0,1) both}
+.home-counter{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);padding:8px 18px;margin-top:16px;font-size:10px;color:var(--text2);letter-spacing:1px;animation:revealUp .8s .5s cubic-bezier(.22,.68,0,1) both}
 .home-counter strong{color:var(--gold);font-size:18px;font-weight:700;font-family:var(--min)}
-.home-ai-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:0;font-size:9px;margin-top:8px;cursor:pointer;transition:all .3s;font-weight:400;letter-spacing:.5px;animation:revealUp .8s .6s cubic-bezier(.22,.68,0,1) both}
+.home-ai-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;font-size:9px;margin-top:8px;cursor:pointer;transition:all .3s;font-weight:400;letter-spacing:.5px;animation:revealUp .8s .6s cubic-bezier(.22,.68,0,1) both}
 .home-ai-chip.ok{background:rgba(201,168,76,.06);color:var(--gold);border:1px solid rgba(201,168,76,.15)}
 .home-ai-chip.ng{background:rgba(255,255,255,.02);color:var(--text3);border:1px solid var(--border)}
 
-/* Steps — cinematic card style */
 .steps{padding:0;margin:0 28px 24px;display:flex;flex-direction:column;gap:12px}
-.step-card{background:var(--card);border:1px solid var(--border);border-radius:0;padding:20px 22px;position:relative;overflow:hidden;border-left:none!important;
-  animation:revealUp .7s cubic-bezier(.22,.68,0,1) both;transition:border-color .4s,background .4s}
+.step-card{background:var(--card);border:1px solid var(--border);padding:20px 22px;position:relative;overflow:hidden;animation:revealUp .7s cubic-bezier(.22,.68,0,1) both;transition:border-color .4s,background .4s}
 .step-card:nth-child(1){animation-delay:.3s}
 .step-card:nth-child(2){animation-delay:.45s}
 .step-card:nth-child(3){animation-delay:.6s}
-.step-card:hover,.step-card:active{border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.03)}
+.step-card:active{border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.03)}
 .step-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,var(--gold),transparent);opacity:.2;transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.22,.68,0,1)}
-.step-card:hover::after,.step-card:active::after{transform:scaleX(1)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.step-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:0;font-size:10px;font-weight:500;margin-right:12px;flex-shrink:0;border:1px solid var(--gold);color:var(--gold);font-family:var(--min)}
-.step-card:nth-child(1) .step-num,.step-card:nth-child(2) .step-num,.step-card:nth-child(3) .step-num{background:transparent;color:var(--gold)}
+.step-card:active::after{transform:scaleX(1)}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;font-size:10px;font-weight:500;margin-right:12px;flex-shrink:0;border:1px solid var(--gold);color:var(--gold);font-family:var(--min)}
 .step-top{display:flex;align-items:center;margin-bottom:5px}
 .step-title{font-family:var(--min);font-size:14px;font-weight:500;letter-spacing:1px}
 .step-mascot{font-size:28px;position:absolute;right:18px;top:50%;transform:translateY(-50%);opacity:.1}
 .step-desc{font-size:10px;color:var(--text3);line-height:1.8;padding-right:36px;font-weight:300;letter-spacing:.3px}
 
-/* Rec Button — dramatic */
 .rec-area{padding:20px 28px 44px;display:flex;flex-direction:column;align-items:center;gap:16px;animation:revealUp .8s .7s cubic-bezier(.22,.68,0,1) both}
 .rec-btn-wrap{position:relative;width:76px;height:76px}
 .rec-ring{position:absolute;border-radius:50%;border:1px solid var(--gold);opacity:0;animation:ringGlow 3.5s ease-out infinite}
-.rec-ring:nth-child(1){inset:-8px;animation-delay:0s}
+.rec-ring:nth-child(1){inset:-8px}
 .rec-ring:nth-child(2){inset:-20px;animation-delay:.8s}
 .rec-ring:nth-child(3){inset:-32px;animation-delay:1.6s}
 @keyframes ringGlow{0%{transform:scale(.95);opacity:.2}100%{transform:scale(1.12);opacity:0}}
 .rec-btn{width:76px;height:76px;border-radius:50%;border:1.5px solid var(--gold);background:transparent;color:var(--gold);font-size:26px;cursor:pointer;position:relative;z-index:1;transition:all .35s cubic-bezier(.22,.68,0,1)}
-.rec-btn:hover{background:rgba(201,168,76,.08);box-shadow:0 0 40px rgba(201,168,76,.1)}
 .rec-btn:active{transform:scale(.9);background:var(--gold);color:var(--bg);border-color:var(--gold)}
 .rec-label{font-size:10px;color:var(--text3);font-weight:300;letter-spacing:2px;text-transform:uppercase}
 
-/* === RECORDING === */
 .rec-screen{position:relative}
 .rec-screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(212,149,106,.04),transparent 60%);z-index:-1}
 .rec-mascot{text-align:center;padding:24px 0 6px;font-size:48px;opacity:.2}
@@ -104,24 +89,23 @@ body{display:flex;flex-direction:column;position:relative}
 .rec-timer{text-align:center;font-size:48px;font-weight:200;font-variant-numeric:tabular-nums;color:var(--text);padding:4px 0;letter-spacing:4px;font-family:var(--min)}
 
 .viz-wrap{display:flex;justify-content:center;align-items:flex-end;height:48px;gap:2.5px;padding:6px 36px}
-.viz-bar{width:3px;min-height:2px;border-radius:0;background:var(--gold);opacity:.6;transition:height .06s linear}
+.viz-bar{width:3px;min-height:2px;background:var(--gold);opacity:.6;transition:height .06s linear}
 .word-counter{text-align:center;padding:4px;font-size:9px;color:var(--text3);flex-shrink:0;letter-spacing:1px}
 
-.lt-wrap{flex:1;min-height:80px;display:flex;flex-direction:column;margin:0 20px;border-radius:0;background:var(--card);border:1px solid var(--border);overflow:hidden}
+.lt-wrap{flex:1;min-height:80px;display:flex;flex-direction:column;margin:0 20px;background:var(--card);border:1px solid var(--border);overflow:hidden}
 .lt-header{padding:10px 16px;font-size:9px;color:var(--gold);font-weight:400;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:8px;letter-spacing:1px;text-transform:uppercase}
 .lt-header::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--warm);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.15}}
 .lt-body{flex:1;overflow-y:auto;padding:14px 16px;font-size:13px;line-height:2.2;color:var(--text);min-height:0;font-weight:300}
 .lt-body::-webkit-scrollbar{width:2px}
 .lt-body::-webkit-scrollbar-track{background:transparent}
-.lt-body::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:0}
+.lt-body::-webkit-scrollbar-thumb{background:var(--bg3)}
 
 .stop-area{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 20px calc(18px + var(--safe-bottom))}
-.stop-btn{width:52px;height:52px;border-radius:0;border:1px solid var(--border2);background:var(--card);color:var(--text);font-size:18px;cursor:pointer;transition:all .3s}
+.stop-btn{width:52px;height:52px;border:1px solid var(--border2);background:var(--card);color:var(--text);font-size:18px;cursor:pointer;transition:all .3s}
 .stop-btn:active{background:var(--warm);color:var(--bg);border-color:var(--warm)}
 .stop-label{font-size:9px;color:var(--text3);letter-spacing:2px;text-transform:uppercase}
 
-/* === PROCESSING === */
 .proc-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;gap:32px}
 .proc-mascot{font-size:48px;opacity:.2}
 .proc-title{font-family:var(--min);font-size:16px;font-weight:400;text-align:center;letter-spacing:2px;color:var(--text2)}
@@ -129,24 +113,23 @@ body{display:flex;flex-direction:column;position:relative}
 .proc-step{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--bg2);transition:all .5s cubic-bezier(.22,.68,0,1)}
 .proc-step.active{background:var(--gold);color:var(--bg)}
 .proc-step.done{opacity:.3}
-.proc-step-icon{width:28px;height:28px;border-radius:0;display:flex;align-items:center;justify-content:center;font-size:12px;background:rgba(255,255,255,.04);flex-shrink:0;transition:all .5s}
+.proc-step-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:12px;background:rgba(255,255,255,.04);flex-shrink:0;transition:all .5s}
 .proc-step.active .proc-step-icon{background:rgba(0,0,0,.15);color:var(--bg)}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 .proc-step-text{font-size:11px;font-weight:400;letter-spacing:.5px}
 .proc-step.active .proc-step-text{color:var(--bg);font-weight:600}
 .proc-step.done .proc-step-text{color:var(--text3)}
 
-/* === RESULT === */
 .res-screen{padding:0 0 80px}
 .res-banner{padding:28px 28px 22px;background:linear-gradient(180deg,var(--bg2),var(--bg));border-bottom:1px solid var(--border);position:relative}
 .res-banner::after{content:'';position:absolute;bottom:0;left:28px;width:40px;height:1px;background:var(--gold)}
 .res-banner h2{font-family:var(--min);font-size:22px;font-weight:500;color:var(--text);letter-spacing:1px}
 .res-banner .res-meta{font-size:9px;color:var(--text3);margin-top:8px;letter-spacing:1px}
-.res-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:0;font-size:8px;font-weight:500;margin-top:10px;letter-spacing:1px;text-transform:uppercase}
+.res-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;font-size:8px;font-weight:500;margin-top:10px;letter-spacing:1px;text-transform:uppercase}
 .res-badge.ai{background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.15)}
 .res-badge.local{background:rgba(255,255,255,.03);color:var(--text3);border:1px solid var(--border)}
 
-.res-section{margin:16px 20px;border-radius:0;background:var(--card);border:1px solid var(--border);overflow:hidden}
+.res-section{margin:16px 20px;background:var(--card);border:1px solid var(--border);overflow:hidden}
 .res-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--border)}
 .res-section-title{font-size:11px;font-weight:500;display:flex;align-items:center;gap:8px;letter-spacing:.5px}
 .res-copy-btn{background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;padding:4px 8px;transition:color .3s}
@@ -155,26 +138,25 @@ body{display:flex;flex-direction:column;position:relative}
 .res-section-body::-webkit-scrollbar{width:2px}
 .res-section-body::-webkit-scrollbar-thumb{background:var(--bg3)}
 
-.res-actions{display:grid;grid-template-columns:1fr 1fr;gap:1px;padding:0 20px 16px;background:transparent}
-.res-act-btn{padding:14px;border-radius:0;border:1px solid var(--border);background:var(--card);color:var(--text2);font-size:10px;font-weight:400;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font);transition:all .35s;letter-spacing:.5px}
+.res-actions{display:grid;grid-template-columns:1fr 1fr;gap:1px;padding:0 20px 16px}
+.res-act-btn{padding:14px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-size:10px;font-weight:400;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font);transition:all .35s;letter-spacing:.5px}
 .res-act-btn:active{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 
-/* === HISTORY === */
 .hist-screen{padding:0 0 20px}
 .hist-header{padding:24px 28px 16px;display:flex;align-items:center;justify-content:space-between}
 .hist-header h2{font-family:var(--min);font-size:18px;font-weight:500;letter-spacing:1px}
-.hist-clear{background:none;border:1px solid rgba(212,149,106,.2);color:var(--warm);font-size:9px;padding:6px 14px;border-radius:0;cursor:pointer;font-family:var(--font);letter-spacing:1px;transition:all .3s}
+.hist-clear{background:none;border:1px solid rgba(212,149,106,.2);color:var(--warm);font-size:9px;padding:6px 14px;cursor:pointer;font-family:var(--font);letter-spacing:1px;transition:all .3s}
 .hist-clear:active{background:var(--warm);color:var(--bg)}
 .hist-search{margin:0 28px 16px;position:relative}
-.hist-search input{width:100%;padding:12px 14px 12px 40px;border-radius:0;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:11px;font-family:var(--font);outline:none;letter-spacing:.5px;transition:border-color .3s}
+.hist-search input{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:11px;font-family:var(--font);outline:none;letter-spacing:.5px;transition:border-color .3s}
 .hist-search input:focus{border-color:var(--gold)}
-.hist-search::before{content:'\1F50D';position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.4}
+.hist-search::before{content:'🔍';position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.4}
 .hist-list{padding:0 28px;display:flex;flex-direction:column;gap:1px}
-.hist-item{background:var(--card);border:1px solid var(--border);border-radius:0;padding:16px 18px;cursor:pointer;transition:all .3s;position:relative}
+.hist-item{background:var(--card);border:1px solid var(--border);padding:16px 18px;cursor:pointer;transition:all .3s;position:relative}
 .hist-item:active{border-color:var(--gold);background:rgba(201,168,76,.03)}
 .hist-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
 .hist-item-title{font-family:var(--min);font-size:13px;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:8px;letter-spacing:.5px}
-.hist-item-badge{font-size:8px;padding:3px 10px;border-radius:0;flex-shrink:0;font-weight:400;letter-spacing:1px;text-transform:uppercase}
+.hist-item-badge{font-size:8px;padding:3px 10px;flex-shrink:0;font-weight:400;letter-spacing:1px;text-transform:uppercase}
 .hist-item-badge.ai{background:rgba(201,168,76,.08);color:var(--gold)}
 .hist-item-badge.local{background:rgba(255,255,255,.03);color:var(--text3)}
 .hist-item-meta{font-size:9px;color:var(--text3);display:flex;gap:14px;letter-spacing:.5px}
@@ -182,10 +164,9 @@ body{display:flex;flex-direction:column;position:relative}
 .hist-item-del:hover,.hist-item-del:active{opacity:1;color:var(--warm)}
 .hist-empty{text-align:center;padding:56px 28px;color:var(--text3);font-size:12px;font-weight:300;line-height:2;letter-spacing:.5px}
 
-/* === SETTINGS === */
 .modal-overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:flex-end;justify-content:center}
 .modal-overlay.show{display:flex}
-.modal{width:100%;max-width:480px;max-height:85vh;background:var(--bg2);border-radius:0;border:1px solid var(--border);border-bottom:none;overflow-y:auto;padding-bottom:var(--safe-bottom);animation:slideUp .4s cubic-bezier(.22,.68,0,1)}
+.modal{width:100%;max-width:480px;max-height:85vh;background:var(--bg2);border:1px solid var(--border);border-bottom:none;overflow-y:auto;padding-bottom:var(--safe-bottom);animation:slideUp .4s cubic-bezier(.22,.68,0,1)}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-bar{width:32px;height:2px;background:var(--border2);margin:14px auto}
 .modal-hdr{padding:0 28px 18px;display:flex;align-items:center;justify-content:space-between}
@@ -194,13 +175,13 @@ body{display:flex;flex-direction:column;position:relative}
 .modal-body{padding:0 28px 28px}
 .field{margin-bottom:18px}
 .field label{display:block;font-size:10px;color:var(--text2);margin-bottom:7px;font-weight:400;letter-spacing:.5px}
-.field input,.field select{width:100%;padding:12px 14px;border-radius:0;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:12px;font-family:var(--font);outline:none;transition:border-color .3s;letter-spacing:.3px}
+.field input,.field select{width:100%;padding:12px 14px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:12px;font-family:var(--font);outline:none;transition:border-color .3s;letter-spacing:.3px;-webkit-appearance:none;-moz-appearance:none;appearance:none}
 .field input:focus,.field select:focus{border-color:var(--gold)}
 .field .hint{font-size:8px;color:var(--text3);margin-top:5px;letter-spacing:.3px}
-.save-btn{width:100%;padding:14px;border-radius:0;border:1px solid var(--gold);background:transparent;color:var(--gold);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);transition:all .35s;letter-spacing:2px;text-transform:uppercase}
+.save-btn{width:100%;padding:14px;border:1px solid var(--gold);background:transparent;color:var(--gold);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);transition:all .35s;letter-spacing:2px;text-transform:uppercase}
 .save-btn:hover,.save-btn:active{background:var(--gold);color:var(--bg)}
 
-.ai-status-card{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:0;background:rgba(255,255,255,.02);border:1px solid var(--border);margin-bottom:20px}
+.ai-status-card{display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid var(--border);margin-bottom:20px}
 .ai-status-card.ok{border-color:rgba(201,168,76,.15);background:rgba(201,168,76,.03)}
 .ai-status-card.ng{border-color:var(--border)}
 .ai-status-icon{font-size:22px;flex-shrink:0}
@@ -211,30 +192,27 @@ body{display:flex;flex-direction:column;position:relative}
 .adv-toggle{display:flex;align-items:center;gap:6px;padding:14px 0;margin-top:10px;font-size:10px;color:var(--text3);cursor:pointer;border-top:1px solid var(--border);user-select:none;letter-spacing:.5px}
 .adv-section{display:none;padding:0 0 8px}
 .adv-section.open{display:block;animation:revealUp .4s cubic-bezier(.22,.68,0,1)}
-.adv-notice{font-size:9px;color:var(--text2);background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);border-radius:0;padding:12px 14px;margin-bottom:16px;line-height:1.7;letter-spacing:.3px}
-.test-btn-full{width:100%;padding:12px;border-radius:0;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:10px;cursor:pointer;font-family:var(--font);margin-top:4px;transition:all .3s;letter-spacing:1px}
+.adv-notice{font-size:9px;color:var(--text2);background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);padding:12px 14px;margin-bottom:16px;line-height:1.7;letter-spacing:.3px}
+.test-btn-full{width:100%;padding:12px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:10px;cursor:pointer;font-family:var(--font);margin-top:4px;transition:all .3s;letter-spacing:1px}
 .test-btn-full:active{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 
-/* === BOTTOM NAV === */
 .bnav{position:relative;z-index:10;display:flex;background:var(--bg);border-top:1px solid var(--border);padding-bottom:var(--safe-bottom)}
 .bnav-btn{flex:1;padding:12px 0 10px;background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .3s;font-family:var(--font)}
 .bnav-btn span{font-size:7px;letter-spacing:2px;font-weight:300;text-transform:uppercase;transition:color .3s}
 .bnav-btn.active{color:var(--text)}
 .bnav-btn.active span{color:var(--gold)}
 
-/* === TOAST === */
 .toast-wrap{position:fixed;top:72px;left:50%;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none;width:88%;max-width:360px}
-.toast{padding:14px 20px;border-radius:0;background:var(--card2);border:1px solid var(--border);font-size:11px;line-height:1.6;color:var(--text);animation:toastIn .35s cubic-bezier(.22,.68,0,1);pointer-events:auto;letter-spacing:.3px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.toast{padding:14px 20px;background:var(--card2);border:1px solid var(--border);font-size:11px;line-height:1.6;color:var(--text);animation:toastIn .35s cubic-bezier(.22,.68,0,1);pointer-events:auto;letter-spacing:.3px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 @keyframes toastIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
 
-/* === CONFIRM === */
 .confirm-overlay{display:none;position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:24px}
 .confirm-overlay.show{display:flex}
-.confirm-box{background:var(--bg2);border:1px solid var(--border);border-radius:0;padding:32px 28px 24px;max-width:300px;width:100%;text-align:center}
+.confirm-box{background:var(--bg2);border:1px solid var(--border);padding:32px 28px 24px;max-width:300px;width:100%;text-align:center}
 .confirm-box p{font-family:var(--min);font-size:15px;margin-bottom:6px;font-weight:500;letter-spacing:.5px}
 .confirm-box .confirm-sub{font-size:10px;color:var(--text2);margin-bottom:24px;letter-spacing:.3px}
 .confirm-btns{display:flex;gap:1px}
-.confirm-btns button{flex:1;padding:13px;border-radius:0;font-size:11px;font-weight:500;cursor:pointer;font-family:var(--font);border:none;letter-spacing:1px;transition:all .2s}
+.confirm-btns button{flex:1;padding:13px;font-size:11px;font-weight:500;cursor:pointer;font-family:var(--font);border:none;letter-spacing:1px;transition:all .2s}
 .confirm-cancel{background:var(--bg3);color:var(--text2)}
 .confirm-ok{background:var(--warm);color:#fff}
 
@@ -242,7 +220,7 @@ body{display:flex;flex-direction:column;position:relative}
 .wv-warning.show{display:flex}
 .wv-warning h2{font-family:var(--min);font-size:18px;font-weight:500;color:var(--warm);letter-spacing:1px}
 .wv-warning p{font-size:11px;color:var(--text2);line-height:2}
-.wv-warning button{padding:14px 32px;border-radius:0;border:1px solid var(--gold);background:transparent;color:var(--gold);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);letter-spacing:2px;transition:all .3s}
+.wv-warning button{padding:14px 32px;border:1px solid var(--gold);background:transparent;color:var(--gold);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);letter-spacing:2px;transition:all .3s}
 .wv-warning button:active{background:var(--gold);color:var(--bg)}
 
 .https-bar{display:none;padding:8px 28px;background:rgba(212,149,106,.05);text-align:center;font-size:9px;color:var(--warm);font-weight:400;border-bottom:1px solid rgba(212,149,106,.1);letter-spacing:.5px}
@@ -250,17 +228,8 @@ body{display:flex;flex-direction:column;position:relative}
 
 @keyframes float{0%,100%{transform:translateY(-50%)}50%{transform:translateY(calc(-50% - 3px))}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .hidden{display:none!important}
-
-/* iOS form reset */
-input,select,button{-webkit-appearance:none;-moz-appearance:none;appearance:none}
-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236a6960' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
-</style>y:.2}}
-.hidden{display:none!important}
-
-/* iOS form reset */
-input,select,button{-webkit-appearance:none;-moz-appearance:none;appearance:none}
-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236a6960' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 </style>
 </head>
 <body>
@@ -434,7 +403,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     </div>
     <div class="modal-body">
 
-      <!-- AI接続ステータス（読み取り専用・わかりやすく） -->
       <div class="ai-status-card" id="aiStatusCard">
         <div class="ai-status-icon" id="aiStatusIcon">🧠</div>
         <div class="ai-status-info">
@@ -443,7 +411,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         </div>
       </div>
 
-      <!-- メール送信先（唯一のユーザー入力項目） -->
       <div class="field">
         <label>📧 議事録の送信先メールアドレス</label>
         <input type="email" id="sEmail" placeholder="例: tanaka@company.co.jp">
@@ -452,7 +419,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 
       <button class="save-btn" onclick="saveSettings()">✅ 保存する</button>
 
-      <!-- 上級者向け（折りたたみ） -->
       <div class="adv-toggle" onclick="toggleAdvanced()">
         <span id="advArrow">▶</span> 上級者向け設定
       </div>
@@ -526,44 +492,29 @@ function init(){
 }
 
 function checkEnv(){
-  // WebView check
   const ua=navigator.userAgent||'';
   const wv=/FBAN|FBAV|Instagram|Line\/|Twitter|NAVER|DaumApps|GSA\/|CriOS.*wv|; wv\)/i.test(ua);
   const noMedia=!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia;
-  if(wv||noMedia){
-    const el=document.getElementById('wvWarn');
-    if(el)el.classList.add('show');
-  }
-  // HTTPS check
-  if(location.protocol!=='https:'&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){
-    const bar=document.getElementById('httpsBar');
-    if(bar)bar.classList.add('show');
-  }
+  if(wv||noMedia){const el=document.getElementById('wvWarn');if(el)el.classList.add('show')}
+  if(location.protocol!=='https:'&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){const bar=document.getElementById('httpsBar');if(bar)bar.classList.add('show')}
 }
 
 function copyUrl(){
   const url=location.href;
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(url).then(()=>toast('✅ URLをコピーしました！Safariで開いてください'));
-  }else{
-    fbCopy(url);toast('✅ URLをコピーしました！');
-  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>toast('✅ URLをコピーしました！Safariで開いてください'))}
+  else{fbCopy(url);toast('✅ URLをコピーしました！')}
 }
 
 // ========== SETTINGS ==========
 function getGasUrl(){return settings.gasUrl||DEFAULT_GAS_URL}
 function loadSettings(){
   try{const s=JSON.parse(localStorage.getItem(STORE_S));if(s)settings=Object.assign(settings,s)}catch(e){}
-  // driveId migration: remove old field
   delete settings.driveId;
   document.getElementById('sGasUrl').value=settings.gasUrl||'';
   document.getElementById('sApiKey').value=settings.apiKey||'';
   document.getElementById('sEmail').value=settings.email||'';
   document.getElementById('sLang').value=settings.lang||'ja-JP';
-  // If DEFAULT_GAS_URL is set and user hasn't overridden, show it as placeholder
-  if(DEFAULT_GAS_URL&&!settings.gasUrl){
-    document.getElementById('sGasUrl').placeholder='管理者設定済み ✅';
-  }
+  if(DEFAULT_GAS_URL&&!settings.gasUrl){document.getElementById('sGasUrl').placeholder='管理者設定済み ✅'}
 }
 function saveSettings(){
   settings.gasUrl=document.getElementById('sGasUrl').value.trim();
@@ -583,47 +534,28 @@ function toggleAdvanced(){
 }
 
 async function testConnection(){
-  const card=document.getElementById('aiStatusCard');
-  const icon=document.getElementById('aiStatusIcon');
-  const label=document.getElementById('aiStatusLabel');
-  const desc=document.getElementById('aiStatusDesc');
+  const card=document.getElementById('aiStatusCard'),icon=document.getElementById('aiStatusIcon'),label=document.getElementById('aiStatusLabel'),desc=document.getElementById('aiStatusDesc');
   card.className='ai-status-card';icon.textContent='⏳';label.textContent='テスト中...';desc.textContent='AIサーバーに接続しています...';
-  // Save current input values temporarily for testing
   const testGas=document.getElementById('sGasUrl').value.trim()||DEFAULT_GAS_URL;
   const testKey=document.getElementById('sApiKey').value.trim();
   try{
     if(testGas){
       const r=await fetch(testGas+'?test=1',{method:'GET'});
-      if(r.ok){card.className='ai-status-card ok';icon.textContent='✅';label.textContent='AI接続OK';desc.textContent='AIサーバーに正常接続できました';}
+      if(r.ok){card.className='ai-status-card ok';icon.textContent='✅';label.textContent='AI接続OK';desc.textContent='AIサーバーに正常接続できました'}
       else throw new Error('接続エラー');
     }else if(testKey){
       const r=await fetch(GEM_URL+'?key='+testKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:'test'}]}],generationConfig:{maxOutputTokens:5}})});
-      if(r.ok){card.className='ai-status-card ok';icon.textContent='✅';label.textContent='AI接続OK';desc.textContent='Gemini APIに正常接続できました';}
+      if(r.ok){card.className='ai-status-card ok';icon.textContent='✅';label.textContent='AI接続OK';desc.textContent='Gemini APIに正常接続できました'}
       else throw new Error('APIキーエラー ('+r.status+')');
-    }else{
-      card.className='ai-status-card ng';icon.textContent='📝';label.textContent='ローカルモード';desc.textContent='AI未接続。基本機能は利用できます。';
-    }
+    }else{card.className='ai-status-card ng';icon.textContent='📝';label.textContent='ローカルモード';desc.textContent='AI未接続。基本機能は利用できます。'}
   }catch(e){card.className='ai-status-card ng';icon.textContent='❌';label.textContent='接続失敗';desc.textContent=e.message}
 }
 function updateStatus(){
-  const card=document.getElementById('aiStatusCard');
-  const icon=document.getElementById('aiStatusIcon');
-  const label=document.getElementById('aiStatusLabel');
-  const desc=document.getElementById('aiStatusDesc');
+  const card=document.getElementById('aiStatusCard'),icon=document.getElementById('aiStatusIcon'),label=document.getElementById('aiStatusLabel'),desc=document.getElementById('aiStatusDesc');
   const gasUrl=getGasUrl();
-  if(gasUrl){
-    card.className='ai-status-card ok';icon.textContent='🧠';
-    label.textContent='AI機能：有効';
-    desc.textContent=settings.gasUrl?'カスタム接続先を使用中':'AI議事録が利用できます';
-  }else if(settings.apiKey){
-    card.className='ai-status-card ok';icon.textContent='🔑';
-    label.textContent='AI機能：有効（個人キー）';
-    desc.textContent='お客様のAPIキーで接続中';
-  }else{
-    card.className='ai-status-card ng';icon.textContent='📝';
-    label.textContent='AI機能：オフ（ローカルモード）';
-    desc.textContent='録音と基本要約は利用可。AI要約には接続設定が必要です。';
-  }
+  if(gasUrl){card.className='ai-status-card ok';icon.textContent='🧠';label.textContent='AI機能：有効';desc.textContent=settings.gasUrl?'カスタム接続先を使用中':'AI議事録が利用できます'}
+  else if(settings.apiKey){card.className='ai-status-card ok';icon.textContent='🔑';label.textContent='AI機能：有効（個人キー）';desc.textContent='お客様のAPIキーで接続中'}
+  else{card.className='ai-status-card ng';icon.textContent='📝';label.textContent='AI機能：オフ（ローカルモード）';desc.textContent='録音と基本要約は利用可。AI要約には接続設定が必要です。'}
 }
 
 // ========== HISTORY ==========
@@ -631,52 +563,25 @@ function loadHistory(){try{history=JSON.parse(localStorage.getItem(STORE_H))||[]
 function saveHistory(){localStorage.setItem(STORE_H,JSON.stringify(history.slice(0,MAX_HIST)))}
 function updateCounter(){
   document.getElementById('counterNum').textContent=history.length;
-  // Update home AI chip
   const chip=document.getElementById('homeAiChip');
   const gasUrl=getGasUrl();
-  if(gasUrl||settings.apiKey){
-    chip.className='home-ai-chip ok';
-    chip.textContent='🧠 AI議事録が利用可能';
-  }else{
-    chip.className='home-ai-chip ng';
-    chip.innerHTML='📝 ローカルモード <span style="text-decoration:underline;margin-left:4px" onclick="openSettings()">設定</span>';
-  }
+  if(gasUrl||settings.apiKey){chip.className='home-ai-chip ok';chip.textContent='🧠 AI議事録が利用可能'}
+  else{chip.className='home-ai-chip ng';chip.innerHTML='📝 ローカルモード <span style="text-decoration:underline;margin-left:4px" onclick="openSettings()">設定</span>'}
 }
 
 function renderHist(){
   const q=(document.getElementById('histSearch').value||'').toLowerCase();
   const list=document.getElementById('histList');
   const btn=document.getElementById('histClearBtn');
-  const filtered=history.filter(h=>{
-    if(!q)return true;
-    return (h.title||'').toLowerCase().includes(q)||(h.dateStr||'').includes(q)||(h.transcript||'').toLowerCase().includes(q);
-  });
+  const filtered=history.filter(h=>{if(!q)return true;return(h.title||'').toLowerCase().includes(q)||(h.dateStr||'').includes(q)||(h.transcript||'').toLowerCase().includes(q)});
   btn.style.display=history.length?'block':'none';
   if(!filtered.length){list.innerHTML='<div class="hist-empty">📝 '+(q?'検索結果がありません':'まだ議事録がありません。<br>録音ボタンを押して最初の議事録を作りましょう！')+'</div>';return}
-  list.innerHTML=filtered.map((h,i)=>{
-    const idx=history.indexOf(h);
-    return `<div class="hist-item" onclick="showResult(${idx})">
-      <button class="hist-item-del" onclick="event.stopPropagation();delHist(${idx})">✕</button>
-      <div class="hist-item-top">
-        <div class="hist-item-title">${esc(h.title||'無題')}</div>
-        <div class="hist-item-badge ${h.usedAI?'ai':'local'}">${h.usedAI?'🧠 AI':'📝 ローカル'}</div>
-      </div>
-      <div class="hist-item-meta"><span>${esc(h.dateStr||'')}</span><span>⏱️ ${esc(h.duration||'')}</span></div>
-    </div>`}).join('');
+  list.innerHTML=filtered.map((h,i)=>{const idx=history.indexOf(h);return '<div class="hist-item" onclick="showResult('+idx+')"><button class="hist-item-del" onclick="event.stopPropagation();delHist('+idx+')">✕</button><div class="hist-item-top"><div class="hist-item-title">'+esc(h.title||'無題')+'</div><div class="hist-item-badge '+(h.usedAI?'ai':'local')+'">'+(h.usedAI?'🧠 AI':'📝 ローカル')+'</div></div><div class="hist-item-meta"><span>'+esc(h.dateStr||'')+'</span><span>⏱️ '+esc(h.duration||'')+'</span></div></div>'}).join('');
 }
 function delHist(i){history.splice(i,1);saveHistory();renderHist();updateCounter();toast('削除しました')}
-function clearAllHist(){
-  if(!history.length)return;
-  showConfirm('全ての履歴を削除しますか？',history.length+'件の議事録が完全に削除されます。',()=>{
-    history=[];saveHistory();renderHist();updateCounter();toast('全件削除しました');
-  });
-}
+function clearAllHist(){if(!history.length)return;showConfirm('全ての履歴を削除しますか？',history.length+'件の議事録が完全に削除されます。',()=>{history=[];saveHistory();renderHist();updateCounter();toast('全件削除しました')})}
 
-function showResult(idx){
-  currentResult=history[idx];if(!currentResult)return;
-  displayResult(currentResult);
-  navTo('sc-res');
-}
+function showResult(idx){currentResult=history[idx];if(!currentResult)return;displayResult(currentResult);navTo('sc-res')}
 
 // ========== NAVIGATION ==========
 function navTo(id,btn){
@@ -684,45 +589,26 @@ function navTo(id,btn){
   const el=document.getElementById(id);if(el)el.classList.add('active');
   document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  else{
-    const btns=document.querySelectorAll('.bnav-btn');
-    if(id==='sc-home')btns[0]?.classList.add('active');
-    else if(id==='sc-hist'){btns[1]?.classList.add('active');renderHist()}
-  }
+  else{const btns=document.querySelectorAll('.bnav-btn');if(id==='sc-home')btns[0]?.classList.add('active');else if(id==='sc-hist'){btns[1]?.classList.add('active');renderHist()}}
 }
 
 // ========== RECORDING ==========
 async function startRec(){
   if(isRecording)return;
-
-  // Env check
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-    toast('⚠️ このブラウザではマイクが使えません。Safari/Chromeで開いてください。',6000);return;
-  }
-
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('⚠️ このブラウザではマイクが使えません。Safari/Chromeで開いてください。',6000);return}
   try{
-    // Vibrate
     if(navigator.vibrate)navigator.vibrate(100);
-
     const stream=await navigator.mediaDevices.getUserMedia({audio:true});
     isRecording=true;fullTx='';interimTx='';recStart=new Date();
-
-    // Audio context for visualizer
     audioCtx=new(window.AudioContext||window.webkitAudioContext)();
     if(audioCtx.state==='suspended')await audioCtx.resume();
     const src=audioCtx.createMediaStreamSource(stream);
     analyser=audioCtx.createAnalyser();analyser.fftSize=128;
     src.connect(analyser);
-
-    // MediaRecorder
     const mimeType=['audio/webm','audio/mp4','audio/ogg'].find(m=>MediaRecorder.isTypeSupported(m))||'';
     mediaRec=new MediaRecorder(stream,mimeType?{mimeType}:{});
     mediaRec.start();
-
-    // Wake Lock
     try{if('wakeLock' in navigator)wakeLock=await navigator.wakeLock.request('screen')}catch(e){}
-
-    // UI
     navTo('sc-rec');
     document.getElementById('ltBody').textContent='音声を認識しています...';
     document.getElementById('recTimer').textContent='00:00:00';
@@ -736,50 +622,28 @@ async function startRec(){
       const iOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
       if(iOS)toast('🎤 マイクを許可してください\niOS: アドレスバー「ぁあ」→「Webサイトの設定」→ マイク → 許可',6000);
       else toast('🎤 マイクへのアクセスを許可してください。\nアドレスバーの🔒をクリック → マイク → 許可',6000);
-    }else{
-      toast('⚠️ マイクエラー: '+e.message,6000);
-    }
+    }else{toast('⚠️ マイクエラー: '+e.message,6000)}
   }
 }
 
-function setMascotMsg(){
-  const el=document.getElementById('recMsg');
-  el.textContent=MASCOT_MSGS[Math.floor(Math.random()*MASCOT_MSGS.length)];
-}
+function setMascotMsg(){document.getElementById('recMsg').textContent=MASCOT_MSGS[Math.floor(Math.random()*MASCOT_MSGS.length)]}
 
-function confirmStop(){
-  if(!isRecording)return;
-  const dur=document.getElementById('recTimer').textContent;
-  const chars=fullTx.length+(interimTx||'').length;
-  showConfirm('録音を停止しますか？','⏱️ '+dur+' ・ 📝 '+chars+'文字',()=>stopRec());
-}
+function confirmStop(){if(!isRecording)return;const dur=document.getElementById('recTimer').textContent;const chars=fullTx.length+(interimTx||'').length;showConfirm('録音を停止しますか？','⏱️ '+dur+' ・ 📝 '+chars+'文字',()=>stopRec())}
 
 function stopRec(){
   if(!isRecording)return;
   isRecording=false;
   if(navigator.vibrate)navigator.vibrate([50,50,50]);
-
-  // Stop SR
   if(sr){try{sr.stop()}catch(e){}sr=null}
-  // Stop timer
   if(timerInt){clearInterval(timerInt);timerInt=null}
-  // Stop viz
   stopViz();
-  // Stop media recorder
   if(mediaRec&&mediaRec.state!=='inactive'){try{mediaRec.stop()}catch(e){}}
   if(mediaRec){try{mediaRec.stream.getTracks().forEach(t=>t.stop())}catch(e){}}
-  // Release wake lock
   if(wakeLock){try{wakeLock.release()}catch(e){}wakeLock=null}
-  // Close audio context
   if(audioCtx){try{audioCtx.close()}catch(e){}audioCtx=null;analyser=null}
-
   const recEnd=new Date();
-  // Check if we have text
   const tx=(fullTx||'').trim();
-  if(!tx){
-    toast('⚠️ 音声を認識できませんでした。デモデータで処理します。',4000);
-    fullTx='本日は新規プロジェクトの進捗について話し合いました。田中さんから現在の開発状況について報告があり、予定通り進んでいるとのことです。来月の15日までにプロトタイプを完成させる予定です。次回は来週水曜日に進捗確認を行います。';
-  }
+  if(!tx){toast('⚠️ 音声を認識できませんでした。デモデータで処理します。',4000);fullTx='本日は新規プロジェクトの進捗について話し合いました。田中さんから現在の開発状況について報告があり、予定通り進んでいるとのことです。来月の15日までにプロトタイプを完成させる予定です。次回は来週水曜日に進捗確認を行います。'}
   processPipeline(recEnd);
 }
 
@@ -788,15 +652,7 @@ function startSR(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){toast('⚠️ 音声認識非対応ブラウザです');return}
   sr=new SR();sr.continuous=true;sr.interimResults=true;sr.lang=settings.lang||'ja-JP';
-  sr.onresult=(e)=>{
-    let interim='';
-    for(let i=e.resultIndex;i<e.results.length;i++){
-      const t=e.results[i][0].transcript;
-      if(e.results[i].isFinal){fullTx+=t+'\n'}else{interim=t}
-    }
-    interimTx=interim;
-    updateLiveText();
-  };
+  sr.onresult=(e)=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal){fullTx+=t+'\n'}else{interim=t}}interimTx=interim;updateLiveText()};
   sr.onerror=(e)=>{if(isRecording&&e.error!=='aborted'&&e.error!=='no-speech')setTimeout(()=>trySRStart(),500)};
   sr.onend=()=>{if(isRecording)setTimeout(()=>trySRStart(),300)};
   trySRStart();
@@ -805,10 +661,9 @@ function trySRStart(){if(sr&&isRecording){try{sr.start()}catch(e){}}}
 
 function updateLiveText(){
   const el=document.getElementById('ltBody');
-  const display=fullTx+(interimTx?'<span style="color:var(--gd)">'+esc(interimTx)+'</span>':'');
+  const display=fullTx+(interimTx?'<span style="color:var(--gold)">'+esc(interimTx)+'</span>':'');
   el.innerHTML=display||'音声を認識しています...';
   el.scrollTop=el.scrollHeight;
-  // Update counter
   const total=fullTx.length+(interimTx||'').length;
   const lines=(fullTx.match(/\n/g)||[]).length+(interimTx?1:0);
   document.getElementById('wordCounter').textContent='📝 '+total+'文字 ・ '+lines+'行';
@@ -816,287 +671,94 @@ function updateLiveText(){
 
 // ========== TIMER ==========
 function startTimer(){
-  const el=document.getElementById('recTimer');
-  const start=Date.now();
-  el.textContent='00:00:00';
-  timerInt=setInterval(()=>{
-    const d=Date.now()-start;
-    const h=Math.floor(d/3600000);
-    const m=Math.floor((d%3600000)/60000);
-    const s=Math.floor((d%60000)/1000);
-    el.textContent=pad(h)+':'+pad(m)+':'+pad(s);
-  },1000);
+  const el=document.getElementById('recTimer');const start=Date.now();el.textContent='00:00:00';
+  timerInt=setInterval(()=>{const d=Date.now()-start;const h=Math.floor(d/3600000);const m=Math.floor((d%3600000)/60000);const s=Math.floor((d%60000)/1000);el.textContent=pad(h)+':'+pad(m)+':'+pad(s)},1000);
 }
 function pad(n){return n<10?'0'+n:''+n}
 
 // ========== VISUALIZER ==========
-function initVizBars(){
-  const w=document.getElementById('vizWrap');
-  w.innerHTML='';
-  for(let i=0;i<44;i++){const b=document.createElement('div');b.className='viz-bar';w.appendChild(b)}
-}
+function initVizBars(){const w=document.getElementById('vizWrap');w.innerHTML='';for(let i=0;i<44;i++){const b=document.createElement('div');b.className='viz-bar';w.appendChild(b)}}
 function startViz(){
-  if(!analyser)return;
-  const bars=document.querySelectorAll('.viz-bar');
-  const buf=new Uint8Array(analyser.frequencyBinCount);
-  function draw(){
-    analyser.getByteFrequencyData(buf);
-    const step=Math.floor(buf.length/44);
-    for(let i=0;i<44;i++){
-      const val=buf[i*step]||0;
-      bars[i].style.height=Math.max(3,val/255*55)+'px';
-    }
-    animFrame=requestAnimationFrame(draw);
-  }
-  draw();
+  if(!analyser)return;const bars=document.querySelectorAll('.viz-bar');const buf=new Uint8Array(analyser.frequencyBinCount);
+  function draw(){analyser.getByteFrequencyData(buf);const step=Math.floor(buf.length/44);for(let i=0;i<44;i++){const val=buf[i*step]||0;bars[i].style.height=Math.max(2,val/255*48)+'px'}animFrame=requestAnimationFrame(draw)}draw();
 }
-function stopViz(){
-  if(animFrame){cancelAnimationFrame(animFrame);animFrame=null}
-  document.querySelectorAll('.viz-bar').forEach(b=>b.style.height='3px');
-}
+function stopViz(){if(animFrame){cancelAnimationFrame(animFrame);animFrame=null}document.querySelectorAll('.viz-bar').forEach(b=>b.style.height='2px')}
 
 // ========== PROCESSING PIPELINE ==========
 async function processPipeline(endTime){
-  navTo('sc-proc');
-  const tx=fullTx.trim();
-  const start=recStart;const end=endTime;
-  const dur=document.getElementById('recTimer').textContent;
-
-  // Reset steps
-  for(let i=0;i<5;i++){
-    const el=document.getElementById('ps'+i);
-    el.className='proc-step';
-  }
-
-  let usedAI=false;
-  let title='',summary='',email='';
-
-  // Step 0: Confirm text
-  await setStep(0);
-  await delay(600);
-
-  // Step 1: Title
-  await setStep(1);
-  try{title=await genTitle(tx);usedAI=true}catch(e){title=lTitle(tx)}
-
-  // Step 2: Summary
-  await setStep(2);
-  try{summary=await genSummary(tx);usedAI=true}catch(e){summary=lSummary(tx)}
-
-  // Step 3: Email
-  await setStep(3);
-  try{email=await genEmail(summary,title,fmtDate(end));usedAI=true}catch(e){email=lEmail(summary,title,fmtDate(end))}
-
-  // Step 4: Save
+  navTo('sc-proc');const tx=fullTx.trim();const start=recStart;const end=endTime;const dur=document.getElementById('recTimer').textContent;
+  for(let i=0;i<5;i++){document.getElementById('ps'+i).className='proc-step'}
+  let usedAI=false;let title='',summary='',email='';
+  await setStep(0);await delay(600);
+  await setStep(1);try{title=await genTitle(tx);usedAI=true}catch(e){title=lTitle(tx)}
+  await setStep(2);try{summary=await genSummary(tx);usedAI=true}catch(e){summary=lSummary(tx)}
+  await setStep(3);try{email=await genEmail(summary,title,fmtDate(end));usedAI=true}catch(e){email=lEmail(summary,title,fmtDate(end))}
   await setStep(4);
   const ts=fmtTime(start),te=fmtTime(end);
   const fileName='['+title+']_'+fmtDF(end)+'_'+ts.replace(':','')+'-'+te.replace(':','');
-  const record={
-    id:Date.now(),title,fileName,dateStr:fmtDate(end),duration:dur,
-    timeStart:ts,timeEnd:te,transcript:tx,summary,email,
-    emailTo:settings.email||'',usedAI
-  };
-  history.unshift(record);saveHistory();updateCounter();
-  currentResult=record;
-  await delay(500);
-
-  // Show result
-  displayResult(record);
-  navTo('sc-res');
+  const record={id:Date.now(),title,fileName,dateStr:fmtDate(end),duration:dur,timeStart:ts,timeEnd:te,transcript:tx,summary,email,emailTo:settings.email||'',usedAI};
+  history.unshift(record);saveHistory();updateCounter();currentResult=record;await delay(500);
+  displayResult(record);navTo('sc-res');
 }
 
 async function setStep(n){
-  for(let i=0;i<5;i++){
-    const el=document.getElementById('ps'+i);
-    if(i<n)el.className='proc-step done';
-    else if(i===n)el.className='proc-step active';
-    else el.className='proc-step';
-  }
-  // Change mascot
-  const m=document.getElementById('procMascot');
-  if(n<=1)m.textContent='🐉';
-  else if(n<=3)m.textContent='🐉';
-  else m.textContent='🐫';
-  await delay(200);
+  for(let i=0;i<5;i++){const el=document.getElementById('ps'+i);if(i<n)el.className='proc-step done';else if(i===n)el.className='proc-step active';else el.className='proc-step'}
+  const m=document.getElementById('procMascot');if(n<=3)m.textContent='🐉';else m.textContent='🐫';await delay(200);
 }
 
 // ========== GEMINI API ==========
 async function callGemini(prompt){
-  const ctrl=new AbortController();
-  const timer=setTimeout(()=>ctrl.abort(),30000);
-  const gasUrl=getGasUrl();
-
+  const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),30000);const gasUrl=getGasUrl();
   let resp;
-  if(gasUrl){
-    resp=await fetch(gasUrl,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({prompt}),
-      signal:ctrl.signal
-    });
-  }else if(settings.apiKey){
-    resp=await fetch(GEM_URL+'?key='+settings.apiKey,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        contents:[{parts:[{text:prompt}]}],
-        generationConfig:{temperature:0.7,maxOutputTokens:2048}
-      }),
-      signal:ctrl.signal
-    });
-  }else{
-    throw new Error('NO_KEY');
-  }
+  if(gasUrl){resp=await fetch(gasUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt}),signal:ctrl.signal})}
+  else if(settings.apiKey){resp=await fetch(GEM_URL+'?key='+settings.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.7,maxOutputTokens:2048}}),signal:ctrl.signal})}
+  else{throw new Error('NO_KEY')}
   clearTimeout(timer);
-
-  if(!resp.ok){
-    const errText=await resp.text().catch(()=>'');
-    if(resp.status===429)toast('⚠️ AI処理の制限に達しました。少し待ってから再度お試しください',4000);
-    else if(resp.status===400)toast('⚠️ AI接続設定に問題があります',4000);
-    throw new Error('API_ERROR_'+resp.status);
-  }
-
+  if(!resp.ok){if(resp.status===429)toast('⚠️ AI処理の制限に達しました。少し待ってから再度お試しください',4000);else if(resp.status===400)toast('⚠️ AI接続設定に問題があります',4000);throw new Error('API_ERROR_'+resp.status)}
   const data=await resp.json();
-  if(gasUrl){
-    return data.text||data.result||JSON.stringify(data);
-  }else{
-    return data.candidates?.[0]?.content?.parts?.[0]?.text||'';
-  }
+  if(gasUrl){return data.text||data.result||JSON.stringify(data)}else{return data.candidates?.[0]?.content?.parts?.[0]?.text||''}
 }
 
-async function genTitle(tx){
-  const prompt='あなたは優秀な秘書です。以下の会議の文字起こしを読んで、会議のタイトルを1つだけ生成してください。\nルール：20文字以内の簡潔なタイトル、タイトルのみを出力（説明不要）\n\n'+tx.substring(0,3000);
-  return (await callGemini(prompt)).trim().replace(/[「」『』【】]/g,'').substring(0,20);
-}
+async function genTitle(tx){const prompt='あなたは優秀な秘書です。以下の会議の文字起こしを読んで、会議のタイトルを1つだけ生成してください。\nルール：20文字以内の簡潔なタイトル、タイトルのみを出力（説明不要）\n\n'+tx.substring(0,3000);return(await callGemini(prompt)).trim().replace(/[「」『』【】]/g,'').substring(0,20)}
 
-async function genSummary(tx){
-  const prompt='あなたは優秀な秘書です。以下の会議の文字起こしを読んで、構造化された議事録要約を作成してください。\n\n以下の4セクションで構成してください：\n【会議概要】会議の目的と全体の流れを2〜3文で\n【主要な議題と決定事項】箇条書きで各議題と決定事項\n【アクションアイテム】誰が・何を・いつまでに\n【次回予定】次回の会議予定があれば記載\n\n文字起こし：\n'+tx.substring(0,4000);
-  return await callGemini(prompt);
-}
+async function genSummary(tx){const prompt='あなたは優秀な秘書です。以下の会議の文字起こしを読んで、構造化された議事録要約を作成してください。\n\n以下の4セクションで構成してください：\n【会議概要】会議の目的と全体の流れを2〜3文で\n【主要な議題と決定事項】箇条書きで各議題と決定事項\n【アクションアイテム】誰が・何を・いつまでに\n【次回予定】次回の会議予定があれば記載\n\n文字起こし：\n'+tx.substring(0,4000);return await callGemini(prompt)}
 
-async function genEmail(summary,title,dateStr){
-  const prompt='あなたは日本一のトップセールスマンの秘書です。以下の議事録の内容を踏まえ、相手への感謝、会議の意義、そして「ご確認宜しくお願い致します」という意図を、非常に丁寧かつ情熱的なビジネスメール（長文）に広げてください。\n\n構成は：時候の挨拶、会議の御礼、要約の抜粋、今後の展望、締めの挨拶、としてください。\n\nルール：\n・「関係者各位」で始めること\n・時候の挨拶は現在の季節に合わせること\n・議事録ファイルへのリンク箇所を「📄 [議事録ファイルリンク]」として残すこと\n・「敬具」で締めること\n・情熱的だが品のある文体で、相手を大切にする気持ちが伝わるように\n\n会議タイトル：'+title+'\n会議日：'+dateStr+'\n\n議事録要約：\n'+summary;
-  return await callGemini(prompt);
-}
+async function genEmail(summary,title,dateStr){const prompt='あなたは日本一のトップセールスマンの秘書です。以下の議事録の内容を踏まえ、相手への感謝、会議の意義、そして「ご確認宜しくお願い致します」という意図を、非常に丁寧かつ情熱的なビジネスメール（長文）に広げてください。\n\n構成は：時候の挨拶、会議の御礼、要約の抜粋、今後の展望、締めの挨拶、としてください。\n\nルール：\n・「関係者各位」で始めること\n・時候の挨拶は現在の季節に合わせること\n・議事録ファイルへのリンク箇所を「📄 [議事録ファイルリンク]」として残すこと\n・「敬具」で締めること\n・情熱的だが品のある文体で、相手を大切にする気持ちが伝わるように\n\n会議タイトル：'+title+'\n会議日：'+dateStr+'\n\n議事録要約：\n'+summary;return await callGemini(prompt)}
 
 // ========== LOCAL FALLBACK ==========
-function lTitle(tx){
-  const keywords=['会議','打ち合わせ','報告','相談','計画','戦略','プロジェクト','進捗','確認'];
-  for(const k of keywords){if(tx.includes(k))return k+'の議事録'}
-  return '会議の議事録';
-}
-function lSummary(tx){
-  const lines=tx.split('\n').filter(l=>l.trim()).slice(0,5);
-  return '【会議概要】\n本会議の内容を以下にまとめます。\n\n【主要な議題と決定事項】\n'+lines.map(l=>'・'+l.trim().substring(0,80)).join('\n')+'\n\n【アクションアイテム】\n・確認事項は各担当者にて対応予定\n\n【次回予定】\n・次回日程は別途調整';
-}
-function lEmail(summary,title,dateStr){
-  const season=getSeasonGreeting();
-  return '関係者各位\n\n'+season+'\n\nさて、'+dateStr+'に開催いたしました「'+title+'」につきまして、\nご多忙の中ご参加いただき、誠にありがとうございました。\n\n下記の通り議事録をまとめましたので、ご確認のほどよろしくお願いいたします。\n\n📄 [議事録ファイルリンク]\n\n'+summary.substring(0,500)+'\n\n今後とも、皆様のお力添えを賜りながら、プロジェクトの成功に向けて\n全力で取り組んでまいります。引き続きご支援のほど、よろしくお願い申し上げます。\n\nご確認宜しくお願い致します。\n\n敬具';
-}
-function getSeasonGreeting(){
-  const m=new Date().getMonth()+1;
-  if(m<=2||m===12)return '厳寒の候、皆様におかれましてはますますご健勝のこととお慶び申し上げます。';
-  if(m<=5)return '春暖の候、皆様におかれましてはますますご清栄のこととお慶び申し上げます。';
-  if(m<=8)return '盛夏の候、皆様におかれましてはますますご活躍のこととお慶び申し上げます。';
-  return '秋涼の候、皆様におかれましてはますますご健勝のこととお慶び申し上げます。';
-}
+function lTitle(tx){const keywords=['会議','打ち合わせ','報告','相談','計画','戦略','プロジェクト','進捗','確認'];for(const k of keywords){if(tx.includes(k))return k+'の議事録'}return '会議の議事録'}
+function lSummary(tx){const lines=tx.split('\n').filter(l=>l.trim()).slice(0,5);return '【会議概要】\n本会議の内容を以下にまとめます。\n\n【主要な議題と決定事項】\n'+lines.map(l=>'・'+l.trim().substring(0,80)).join('\n')+'\n\n【アクションアイテム】\n・確認事項は各担当者にて対応予定\n\n【次回予定】\n・次回日程は別途調整'}
+function lEmail(summary,title,dateStr){const season=getSeasonGreeting();return '関係者各位\n\n'+season+'\n\nさて、'+dateStr+'に開催いたしました「'+title+'」につきまして、\nご多忙の中ご参加いただき、誠にありがとうございました。\n\n下記の通り議事録をまとめましたので、ご確認のほどよろしくお願いいたします。\n\n📄 [議事録ファイルリンク]\n\n'+summary.substring(0,500)+'\n\n今後とも、皆様のお力添えを賜りながら、プロジェクトの成功に向けて\n全力で取り組んでまいります。引き続きご支援のほど、よろしくお願い申し上げます。\n\nご確認宜しくお願い致します。\n\n敬具'}
+function getSeasonGreeting(){const m=new Date().getMonth()+1;if(m<=2||m===12)return '厳寒の候、皆様におかれましてはますますご健勝のこととお慶び申し上げます。';if(m<=5)return '春暖の候、皆様におかれましてはますますご清栄のこととお慶び申し上げます。';if(m<=8)return '盛夏の候、皆様におかれましてはますますご活躍のこととお慶び申し上げます。';return '秋涼の候、皆様におかれましてはますますご健勝のこととお慶び申し上げます。'}
 
 // ========== DISPLAY RESULT ==========
 function displayResult(r){
   document.getElementById('resTitle').textContent=r.title||'無題';
   document.getElementById('resMeta').textContent=(r.dateStr||'')+' ・ '+(r.duration||'')+' ・ '+(r.fileName||'');
-  const badge=document.getElementById('resBadge');
-  badge.className=r.usedAI?'res-badge ai':'res-badge local';
-  badge.textContent=r.usedAI?'🧠 Gemini AI':'📝 ローカル';
+  const badge=document.getElementById('resBadge');badge.className=r.usedAI?'res-badge ai':'res-badge local';badge.textContent=r.usedAI?'🧠 Gemini AI':'📝 ローカル';
   document.getElementById('resSummary').textContent=r.summary||'';
   document.getElementById('resTx').textContent=r.transcript||'';
   document.getElementById('resEmail').textContent=r.email||'';
 }
 
 // ========== RESULT ACTIONS ==========
-function copySection(id){
-  const el=document.getElementById(id);if(!el)return;
-  const text=el.textContent;
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(()=>toast('📋 コピーしました')).catch(()=>{fbCopy(text);toast('📋 コピーしました')});
-  }else{fbCopy(text);toast('📋 コピーしました')}
-}
-function fbCopy(text){
-  const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';
-  document.body.appendChild(ta);ta.select();
-  try{document.execCommand('copy')}catch(e){}
-  document.body.removeChild(ta);
-}
+function copySection(id){const el=document.getElementById(id);if(!el)return;const text=el.textContent;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>toast('📋 コピーしました')).catch(()=>{fbCopy(text);toast('📋 コピーしました')})}else{fbCopy(text);toast('📋 コピーしました')}}
+function fbCopy(text){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta)}
 
-function openMailer(){
-  if(!currentResult)return;
-  const to=currentResult.emailTo||settings.email||'';
-  const subj=encodeURIComponent('【議事録】'+(currentResult.title||''));
-  const body=encodeURIComponent(currentResult.email||'');
-  window.location.href='mailto:'+to+'?subject='+subj+'&body='+body;
-}
+function openMailer(){if(!currentResult)return;const to=currentResult.emailTo||settings.email||'';const subj=encodeURIComponent('【議事録】'+(currentResult.title||''));const body=encodeURIComponent(currentResult.email||'');window.location.href='mailto:'+to+'?subject='+subj+'&body='+body}
 
-function downloadResult(){
-  if(!currentResult)return;
-  const text='タイトル: '+currentResult.title+'\n日付: '+currentResult.dateStr+'\n時間: '+currentResult.timeStart+'〜'+currentResult.timeEnd+'\n録音時間: '+currentResult.duration+'\n\n━━━ AI要約 ━━━\n'+currentResult.summary+'\n\n━━━ 文字起こし ━━━\n'+currentResult.transcript+'\n\n━━━ メール下書き ━━━\n'+currentResult.email;
-  const blob=new Blob([text],{type:'text/plain;charset=utf-8'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download=(currentResult.fileName||'gijiroku')+'.txt';
-  a.click();URL.revokeObjectURL(a.href);
-  toast('💾 ダウンロードしました');
-}
+function downloadResult(){if(!currentResult)return;const text='タイトル: '+currentResult.title+'\n日付: '+currentResult.dateStr+'\n時間: '+currentResult.timeStart+'〜'+currentResult.timeEnd+'\n録音時間: '+currentResult.duration+'\n\n━━━ AI要約 ━━━\n'+currentResult.summary+'\n\n━━━ 文字起こし ━━━\n'+currentResult.transcript+'\n\n━━━ メール下書き ━━━\n'+currentResult.email;const blob=new Blob([text],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(currentResult.fileName||'gijiroku')+'.txt';a.click();URL.revokeObjectURL(a.href);toast('💾 ダウンロードしました')}
 
-async function shareResult(){
-  if(!currentResult)return;
-  const data={
-    title:'【議事録】'+currentResult.title,
-    text:currentResult.summary||currentResult.transcript||''
-  };
-  if(navigator.share){
-    try{await navigator.share(data);return}catch(e){}
-  }
-  fbCopy(data.title+'\n\n'+data.text);toast('📤 内容をコピーしました');
-}
+async function shareResult(){if(!currentResult)return;const data={title:'【議事録】'+currentResult.title,text:currentResult.summary||currentResult.transcript||''};if(navigator.share){try{await navigator.share(data);return}catch(e){}}fbCopy(data.title+'\n\n'+data.text);toast('📤 内容をコピーしました')}
 
-async function regenAI(){
-  if(!currentResult||!currentResult.transcript)return;
-  toast('🔄 AI再生成中...');
-  const tx=currentResult.transcript;
-  try{
-    currentResult.title=await genTitle(tx);
-    currentResult.summary=await genSummary(tx);
-    currentResult.email=await genEmail(currentResult.summary,currentResult.title,currentResult.dateStr);
-    currentResult.usedAI=true;
-    // Update history
-    const idx=history.findIndex(h=>h.id===currentResult.id);
-    if(idx>=0)history[idx]=currentResult;
-    saveHistory();
-    displayResult(currentResult);
-    toast('✅ AI再生成完了！');
-  }catch(e){
-    toast('⚠️ AI再生成に失敗しました: '+e.message,4000);
-  }
-}
+async function regenAI(){if(!currentResult||!currentResult.transcript)return;toast('🔄 AI再生成中...');const tx=currentResult.transcript;try{currentResult.title=await genTitle(tx);currentResult.summary=await genSummary(tx);currentResult.email=await genEmail(currentResult.summary,currentResult.title,currentResult.dateStr);currentResult.usedAI=true;const idx=history.findIndex(h=>h.id===currentResult.id);if(idx>=0)history[idx]=currentResult;saveHistory();displayResult(currentResult);toast('✅ AI再生成完了！')}catch(e){toast('⚠️ AI再生成に失敗しました: '+e.message,4000)}}
 
 // ========== CONFIRM DIALOG ==========
-function showConfirm(msg,sub,onOk){
-  document.getElementById('confirmMsg').textContent=msg;
-  document.getElementById('confirmSub').textContent=sub||'';
-  const btn=document.getElementById('confirmOk');
-  btn.onclick=()=>{closeConfirm();onOk()};
-  document.getElementById('confirmDlg').classList.add('show');
-}
+function showConfirm(msg,sub,onOk){document.getElementById('confirmMsg').textContent=msg;document.getElementById('confirmSub').textContent=sub||'';const btn=document.getElementById('confirmOk');btn.onclick=()=>{closeConfirm();onOk()};document.getElementById('confirmDlg').classList.add('show')}
 function closeConfirm(){document.getElementById('confirmDlg').classList.remove('show')}
 
 // ========== TOAST ==========
-function toast(msg,dur){
-  dur=dur||3000;
-  const wrap=document.getElementById('toastWrap');
-  const el=document.createElement('div');el.className='toast';
-  el.textContent=msg;
-  wrap.appendChild(el);
-  setTimeout(()=>{el.style.transition='opacity .3s';el.style.opacity='0';setTimeout(()=>el.remove(),300)},dur);
-}
+function toast(msg,dur){dur=dur||3000;const wrap=document.getElementById('toastWrap');const el=document.createElement('div');el.className='toast';el.textContent=msg;wrap.appendChild(el);setTimeout(()=>{el.style.transition='opacity .3s';el.style.opacity='0';setTimeout(()=>el.remove(),300)},dur)}
 
 // ========== UTILS ==========
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
